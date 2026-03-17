@@ -153,6 +153,9 @@ def login():
     """)
 
 @app.route('/')
+def home():
+    return redirect(url_for('login'))
+
 @app.route('/dashboard')
 def dashboard():
     total_c = Customer.query.count()
