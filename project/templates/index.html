@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>School Zone Traffic Monitoring</title>
+
+  <!-- FONT AWESOME -->
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    body{
+      background:#07152d;
+      color:white;
+      min-height:100vh;
+    }
+
+    /* NAVBAR */
+
+    .navbar{
+      width:100%;
+      padding:20px 8%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:#021024;
+      position:sticky;
+      top:0;
+    }
+
+    .logo{
+      font-size:24px;
+      font-weight:bold;
+    }
+
+    .nav-links a{
+      color:white;
+      text-decoration:none;
+      margin-left:20px;
+      transition:0.3s;
+    }
+
+    .nav-links a:hover{
+      color:#4da3ff;
+    }
+
+    /* HERO SECTION */
+
+    .hero{
+      height:90vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding:20px;
+    }
+
+    .hero-content{
+      max-width:800px;
+    }
+
+    .hero-content h1{
+      font-size:55px;
+      margin-bottom:20px;
+      color:#4da3ff;
+    }
+
+    .hero-content p{
+      font-size:20px;
+      line-height:1.8;
+      color:#d6e4ff;
+      margin-bottom:35px;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:15px 35px;
+      background:#0d6efd;
+      color:white;
+      text-decoration:none;
+      border-radius:10px;
+      font-size:18px;
+      transition:0.3s;
+    }
+
+    .btn:hover{
+      background:#0056d6;
+      transform:translateY(-3px);
+    }
+
+    /* FEATURES */
+
+    .features{
+      padding:60px 8%;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:25px;
+    }
+
+    .feature-box{
+      background:#0d1b36;
+      padding:30px;
+      border-radius:15px;
+      text-align:center;
+      transition:0.3s;
+    }
+
+    .feature-box:hover{
+      transform:translateY(-5px);
+    }
+
+    .feature-box i{
+      font-size:45px;
+      color:#4da3ff;
+      margin-bottom:20px;
+    }
+
+    .feature-box h3{
+      margin-bottom:15px;
+      font-size:24px;
+    }
+
+    .feature-box p{
+      color:#c9d6f2;
+      line-height:1.6;
+    }
+
+    /* FOOTER */
+
+    footer{
+      text-align:center;
+      padding:25px;
+      background:#021024;
+      margin-top:40px;
+      color:#9db7e5;
+    }
+
+    /* MOBILE */
+
+    @media(max-width:768px){
+
+      .hero-content h1{
+        font-size:38px;
+      }
+
+      .hero-content p{
+        font-size:17px;
+      }
+
+      .navbar{
+        flex-direction:column;
+        gap:15px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+
+  <nav class="navbar">
+
+    <div class="logo">
+      🚦 Traffic Monitor
+    </div>
+
+  </nav>
+
+  <!-- HERO SECTION -->
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <h1>Welcome to School Zone Traffic Monitoring System</h1>
+
+      <p>
+        This system helps monitor vehicle movement and speed around school areas
+        to improve road safety for students, teachers, and the community.
+        The platform provides real-time traffic information, violation tracking,
+        reporting tools, and traffic officer management to reduce accidents
+        and maintain safe school environments.
+      </p>
+
+      <a href="{{ url_for('login') }}" class="btn">
+    <i class="fa fa-right-to-bracket"></i> Login Now
+	</a>
+
+    </div>
+
+  </section>
+
+  <!-- FEATURES -->
+
+  <section class="features">
+
+    <div class="feature-box">
+
+      <i class="fa fa-car"></i>
+
+      <h3>Traffic Monitoring</h3>
+
+      <p>
+        Monitor vehicle movement and speed in school zones in real time.
+      </p>
+
+    </div>
+
+    <div class="feature-box">
+
+      <i class="fa fa-triangle-exclamation"></i>
+
+      <h3>Violation Detection</h3>
+
+      <p>
+        Detect over-speeding and traffic rule violations automatically.
+      </p>
+
+    </div>
+
+    <div class="feature-box">
+
+      <i class="fa fa-chart-line"></i>
+
+      <h3>Reports & Analytics</h3>
+
+      <p>
+        Generate reports and analyze traffic patterns for better decision making.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    © 2026 School Zone Traffic Monitoring System |
+    All Rights Reserved
+
+  </footer>
+
+</body>
+</html>

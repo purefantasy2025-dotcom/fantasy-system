@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Violations - Traffic Monitor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif; }
+        body { background:#07152d; color:white; display: flex; }
+
+        /* SIDEBAR */
+        .sidebar { width: 260px; height: 100vh; background: #021024; padding: 20px; position: fixed; border-right: 1px solid #13284d; }
+        .logo { font-size: 22px; font-weight: bold; margin-bottom: 50px; color: #0d6efd; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .menu { list-style: none; }
+        .menu li { margin: 15px 0; }
+        .menu li a { text-decoration: none; color: white; padding: 14px; display: block; border-radius: 10px; transition: 0.3s; }
+        .menu li a:hover, .menu li a.active { background: #0d6efd; }
+        .menu li a i { margin-right: 10px; }
+
+        /* MAIN CONTENT */
+        .main-content { margin-left: 260px; width: calc(100% - 260px); padding: 40px; }
+        .top-section { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; }
+        
+        .role-profile { 
+            background:#0d6efd; 
+            padding:12px 25px; 
+            border-radius:30px; 
+            font-size:14px; 
+            font-weight: bold; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+        }
+
+        .welcome-box { background:#0d1b36; padding:30px; border-radius:15px; border-left:5px solid #0d6efd; margin-bottom:30px; border: 1px solid #13284d; }
+        .table-container { background:#0d1b36; padding:25px; border-radius:15px; border: 1px solid #13284d; overflow-x:auto; }
+        
+        table { width:100%; border-collapse:collapse; }
+        th { text-align:left; padding:15px; color:#9bb0d3; border-bottom:2px solid #13284d; font-size:13px; text-transform: uppercase; }
+        td { padding:15px; border-bottom:1px solid #13284d; font-size:14px; }
+
+        .status-tag { padding:6px 12px; border-radius:20px; font-size:11px; font-weight:bold; text-transform: uppercase; }
+        .pending { background:rgba(255,179,0,0.1); color:#ffb300; border: 1px solid #ffb300; }
+        .responded { background:rgba(0,210,106,0.1); color:#00d26a; border: 1px solid #00d26a; }
+
+        .response-input { background:#13284d; border:1px solid #0d6efd; color:white; padding:10px; border-radius:8px; outline:none; width: 180px; }
+        .btn-send { background:#0d6efd; border:none; color:white; padding:10px 15px; border-radius:8px; cursor:pointer; font-weight:bold; transition: 0.2s; }
+        .btn-send:hover { background: #0056d2; transform: scale(1.05); }
+
+        footer { margin-top: 40px; text-align: center; color: #555; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fa fa-traffic-light"></i> TRAFFIC MONITOR
+        </div>
+
+        <ul class="menu">
+            <li><a href="{{ url_for('dashboard') }}"><i class="fa fa-home"></i> Dashboard</a></li>
+            <li><a href="{{ url_for('violations') }}" class="active"><i class="fa fa-triangle-exclamation"></i> Violations</a></li>
+            
+            {% if role == 'admin' %}
+                <li><a href="{{ url_for('users') }}"><i class="fa fa-users"></i> Manage Users</a></li>
+                <li><a href="{{ url_for('settings') }}"><i class="fa fa-gear"></i> Settings</a></li>
+            {% endif %}
+
+            <li><a href="{{ url_for('reports') }}"><i class="fa fa-file-lines"></i> Reports</a></li>
+            
+            <li style="margin-top: 50px;">
+                <a href="{{ url_for('logout') }}" style="color: #ff4d4d;">
+                    <i class="fa fa-right-from-bracket"></i> Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="top-section">
+            <h1>Violations Management</h1>
+            
+            <div class="role-profile">
+                <i class="fa fa-user-shield"></i> 
+                {% if role == 'admin' %}
+                    Admin
+                {% elif role == 'traffic' %}
+                    Traffic
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="welcome-box">
+            <h1>Traffic Violations</h1>
+            <p>Rekodi za magari yaliyokiuka kasi. Hatua zinazochukuliwa hapa zinahifadhiwa moja kwa moja kwenye database.</p>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Vehicle Type</th>
+                        <th>Plate Number</th>
+                        <th>Speed</th>
+                        <th>Status</th>
+                        <th>Officer's Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for v in violations %}
+                    <tr>
+                        <td><strong>{{ v.car_type }}</strong></td>
+                        <td><code>{{ v.plate_number }}</code></td>
+                        <td style="color:#ff4d4d; font-weight:bold;">{{ v.speed }} km/h</td>
+                        <td>
+                            <span class="status-tag {{ 'pending' if v.status == 'Pending' else 'responded' }}">
+                                {{ v.status }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if role == 'traffic' and v.status == 'Pending' %}
+                                <form action="{{ url_for('respond', id=v.id) }}" method="POST" style="display:flex; gap:10px;">
+                                    <input type="text" name="action_message" class="response-input" placeholder="Weka hatua..." required>
+                                    <button type="submit" class="btn-send">Hifadhi</button>
+                                </form>
+                            {% else %}
+                                <span style="color:#888;">
+                                    {% if v.response_message %}
+                                        <i class="fa fa-check-circle" style="color:#00d26a;"></i> {{ v.response_message }}
+                                    {% else %}
+                                        <i>Waiting for Officer...</i>
+                                    {% endif %}
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            &copy; 2026 Traffic Monitor System | School Zone Safety
+        </footer>
+    </div>
+
+</body>
+</html>

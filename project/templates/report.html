@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Traffic Reports - Full View</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    body{
+      background:#07152d;
+      color:white;
+      padding:40px; /* Nafasi pande zote kwa sababu hakuna sidebar */
+    }
+
+    /* MAIN CONTAINER */
+    .container{
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    /* TOP AREA */
+    .top-section{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:40px;
+      border-bottom: 1px solid #13284d;
+      padding-bottom: 20px;
+    }
+
+    .top-section h1{ 
+        font-size:32px; 
+        color: #0d6efd;
+    }
+
+    .nav-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-back {
+        text-decoration: none;
+        color: white;
+        background: #13284d;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    .btn-back:hover {
+        background: #1f3c69;
+    }
+
+    /* SUMMARY CARDS */
+    .summary{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:25px;
+      margin-bottom:40px;
+    }
+
+    .card{
+      background:#0d1b36;
+      padding:30px;
+      border-radius:15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .card i{ font-size:40px; margin-bottom:15px; color:#0d6efd; }
+    .card p{ color:#cfd9ec; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; }
+    .card h2{ font-size:35px; margin-top:10px; }
+
+    /* REPORT TABLE */
+    .report-table{
+      background:#0d1b36;
+      padding:30px;
+      border-radius:15px;
+      overflow-x:auto;
+    }
+
+    .report-table h2{ 
+        margin-bottom:25px; 
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+    }
+
+    th{
+      background:#0d6efd;
+      padding:18px;
+      text-align:left;
+      font-size: 15px;
+      text-transform: uppercase;
+    }
+
+    td{
+      padding:18px;
+      border-bottom:1px solid #13284d;
+      text-align:left;
+      font-size: 15px;
+    }
+
+    tr:hover {
+        background: rgba(13, 110, 253, 0.05);
+    }
+
+    .danger { color:#ff4d4d; font-weight:bold; }
+    .safe { color:#00d26a; font-weight:bold; }
+
+    /* EXPORT BUTTONS */
+    .export-buttons{
+      display:flex;
+      gap:15px;
+      margin-top:30px;
+      justify-content: flex-end;
+    }
+
+    .export-btn{
+      padding:14px 25px;
+      border:none;
+      border-radius:10px;
+      background:#0d6efd;
+      color:white;
+      cursor:pointer;
+      font-size:15px;
+      display:inline-flex;
+      align-items:center;
+      transition: 0.3s;
+    }
+
+    .export-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+    }
+
+    .export-btn i { margin-right: 10px; }
+
+    @media(max-width:1100px){ .summary{ grid-template-columns:repeat(2,1fr); } }
+    @media(max-width:700px){ .summary{ grid-template-columns:1fr; } }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="top-section">
+    <h1><i class="fa fa-file-contract"></i> System Traffic Report</h1>
+    <div class="nav-buttons">
+        <a href="{{ url_for('dashboard') }}" class="btn-back"><i class="fa fa-arrow-left"></i> Back to Dashboard</a>
+        <div class="btn-back"><i class="fa fa-user-circle"></i> {{ session['username'] }}</div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="card">
+      <i class="fa fa-car"></i>
+      <p>Total Vehicles</p>
+      <h2>{{ total_v }}</h2>
+    </div>
+
+    <div class="card">
+      <i class="fa fa-triangle-exclamation"></i>
+      <p>Total Violations</p>
+      <h2 style="color: #ff4d4d;">{{ total_viol }}</h2>
+    </div>
+
+    <div class="card">
+      <i class="fa fa-clock"></i>
+      <p>Peak Hour</p>
+      <h2>{{ peak }}</h2>
+    </div>
+
+    <div class="card">
+      <i class="fa fa-map-marker-alt"></i>
+      <p>Active Zones</p>
+      <h2>School Area</h2>
+    </div>
+  </div>
+
+  <div class="report-table">
+    <h2><i class="fa fa-list-ul"></i> Detailed Traffic Log (No User Data Included)</h2>
+    <table id="reportTable">
+      <thead>
+        <tr>
+          <th>Date Recorded</th>
+          <th>School Location</th>
+          <th>Volume (Vehicles)</th>
+          <th>Violations (Over-speeding)</th>
+          <th>Risk Assessment</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in reports %}
+        <tr>
+          <td>{{ row.date }}</td>
+          <td>{{ row.location }}</td>
+          <td>{{ row.total_vehicles }}</td>
+          <td>{{ row.violations }}</td>
+          <td>
+            {% if row.violations > 50 %}
+              <span class="danger"><i class="fa fa-circle-exclamation"></i> High Risk</span>
+            {% else %}
+              <span class="safe"><i class="fa fa-circle-check"></i> Normal</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="export-buttons">
+      <button class="export-btn" onclick="downloadPDF()" style="background: #e63946;">
+        <i class="fa fa-file-pdf"></i> Export PDF
+      </button>
+
+      <button class="export-btn" onclick="downloadExcel()" style="background: #2b9348;">
+        <i class="fa fa-file-excel"></i> Export Excel
+      </button>
+
+      <button class="export-btn" onclick="window.print()" style="background: #6c757d;">
+        <i class="fa fa-print"></i> Print Full Page
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<script>
+function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.text("Traffic Monitoring System - Full Report", 14, 20);
+    doc.text("Summary: Total Vehicles ({{ total_v }}), Total Violations ({{ total_viol }})", 14, 30);
+    doc.text("Date Generated: " + new Date().toLocaleString(), 14, 40);
+    alert("Kutengeneza PDF kumeanza...");
+    doc.save("Traffic_Monitoring_Report.pdf");
+}
+
+function downloadExcel() {
+    var table = document.getElementById("reportTable");
+    var wb = XLSX.utils.table_to_book(table, {sheet: "Traffic_Report"});
+    XLSX.writeFile(wb, "Traffic_System_Report.xlsx");
+}
+</script>
+
+</body>
+</html>

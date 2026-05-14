@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>User Management</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+  background:#07152d;
+  color:white;
+  padding:30px;
+}
+
+/* MAIN CONTAINER */
+
+.container{
+  max-width:1200px;
+  margin:auto;
+}
+
+/* TOP AREA */
+
+.top-section{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:30px;
+}
+
+.top-section h1{
+  font-size:32px;
+}
+
+.add-btn{
+  background:#0d6efd;
+  color:white;
+  text-decoration:none;
+  padding:14px 20px;
+  border-radius:10px;
+  font-size:15px;
+}
+
+.add-btn:hover{
+  background:#0056d2;
+}
+
+/* TABLE */
+
+.table-box{
+  background:#0d1b36;
+  padding:25px;
+  border-radius:15px;
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th{
+  text-align:left;
+  padding:15px;
+  color:#9bb0d3;
+  border-bottom:2px solid #13284d;
+}
+
+td{
+  padding:18px 15px;
+  border-bottom:1px solid #13284d;
+}
+
+.role{
+  background:#0d6efd;
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:13px;
+}
+
+.actions a{
+  color:white;
+  margin-right:15px;
+  font-size:18px;
+}
+
+.actions a:hover{
+  color:#0d6efd;
+}
+
+/* MODAL */
+
+.modal{
+  display:none;
+  position:fixed;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  justify-content:center;
+  align-items:center;
+}
+
+.modal-content{
+  width:450px;
+  background:#0d1b36;
+  padding:30px;
+  border-radius:15px;
+}
+
+.modal-content h2{
+  margin-bottom:20px;
+}
+
+.input-group{
+  margin-bottom:18px;
+}
+
+.input-group label{
+  display:block;
+  margin-bottom:8px;
+}
+
+.input-group input,
+.input-group select{
+  width:100%;
+  padding:13px;
+  border:none;
+  border-radius:10px;
+  background:#13284d;
+  color:white;
+}
+
+.btn-group{
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+}
+
+.save-btn{
+  flex:1;
+  padding:13px;
+  border:none;
+  border-radius:10px;
+  background:#0d6efd;
+  color:white;
+  cursor:pointer;
+}
+
+.cancel-btn{
+  flex:1;
+  padding:13px;
+  border:none;
+  border-radius:10px;
+  background:#ff4d4d;
+  color:white;
+  cursor:pointer;
+}
+
+/* DELETE BOX */
+
+.delete-box{
+  text-align:center;
+}
+
+.delete-icon{
+  font-size:60px;
+  color:#ff4d4d;
+  margin-bottom:20px;
+}
+
+.delete-box p{
+  margin:20px 0;
+  color:#cfd9ec;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+  .top-section{
+    flex-direction:column;
+    gap:15px;
+    align-items:flex-start;
+  }
+
+  .btn-group{
+    flex-direction:column;
+  }
+
+  .modal-content{
+    width:90%;
+  }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- TOP -->
+
+  <div class="top-section">
+
+    <h1>
+      <i class="fa fa-users"></i>
+      User Management
+    </h1>
+
+    <button class="add-btn" onclick="openAddModal()">
+      <i class="fa fa-user-plus"></i>
+      Add User
+    </button>
+
+  </div>
+
+  <!-- TABLE -->
+
+  <div class="table-box">
+
+    <table>
+
+      <thead>
+
+        <tr>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        {% for user in users %}
+
+        <tr>
+
+          <td>{{ user.fullname }}</td>
+
+          <td>{{ user.email }}</td>
+
+          <td>{{ user.phone }}</td>
+
+          <td>
+            <span class="role">
+              {{ user.role }}
+            </span>
+          </td>
+
+          <td class="actions">
+
+            <a href="#"
+            onclick="openEditModal(
+            '{{ user.id }}',
+            '{{ user.fullname }}',
+            '{{ user.email }}',
+            '{{ user.phone }}',
+            '{{ user.role }}'
+            )">
+
+              <i class="fa fa-edit"></i>
+
+            </a>
+
+            <a href="#"
+            onclick="openDeleteModal('{{ user.id }}')"
+            style="color:#ff4d4d;">
+
+              <i class="fa fa-trash"></i>
+
+            </a>
+
+          </td>
+
+        </tr>
+
+        {% endfor %}
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+<!-- ADD MODAL -->
+
+<div class="modal" id="addModal">
+
+  <div class="modal-content">
+
+    <h2>Add User</h2>
+
+    <form method="POST"
+    action="{{ url_for('add_user') }}">
+
+      <div class="input-group">
+        <label>Full Name</label>
+
+        <input type="text"
+        name="fullname"
+        required>
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+
+        <input type="email"
+        name="email"
+        required>
+      </div>
+
+      <div class="input-group">
+        <label>Phone</label>
+
+        <input type="text"
+        name="phone"
+        required>
+      </div>
+
+      <div class="input-group">
+        <label>Role</label>
+
+        <select name="role" required>
+
+          <option value="Admin">Admin</option>
+          <option value="Traffic Police">Traffic Police</option>
+          <option value="Viewer">Viewer</option>
+
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Username</label>
+
+        <input type="text"
+        name="username"
+        required>
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+
+        <input type="password"
+        name="password"
+        required>
+      </div>
+
+      <div class="btn-group">
+
+        <button type="submit"
+        class="save-btn">
+
+          Save User
+
+        </button>
+
+        <button type="button"
+        class="cancel-btn"
+        onclick="closeAddModal()">
+
+          Cancel
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<!-- EDIT MODAL -->
+
+<div class="modal" id="editModal">
+
+  <div class="modal-content">
+
+    <h2>Edit User</h2>
+
+    <form method="POST" id="editForm">
+
+      <div class="input-group">
+        <label>Full Name</label>
+
+        <input type="text"
+        name="fullname"
+        id="edit_fullname"
+        required>
+      </div>
+
+      <div class="input-group">
+        <label>Email</label>
+
+        <input type="email"
+        name="email"
+        id="edit_email"
+        required>
+      </div>
+
+      <div class="input-group">
+        <label>Phone</label>
+
+        <input type="text"
+        name="phone"
+        id="edit_phone"
+        required>
+      </div>
+
+      <div class="input-group">
+        <label>Role</label>
+
+        <select name="role"
+        id="edit_role">
+
+          <option value="Admin">Admin</option>
+          <option value="Traffic Police">Traffic Police</option>
+          <option value="Viewer">Viewer</option>
+
+        </select>
+      </div>
+
+      <div class="btn-group">
+
+        <button type="submit"
+        class="save-btn">
+
+          Save Changes
+
+        </button>
+
+        <button type="button"
+        class="cancel-btn"
+        onclick="closeEditModal()">
+
+          Cancel
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<!-- DELETE MODAL -->
+
+<div class="modal" id="deleteModal">
+
+  <div class="modal-content delete-box">
+
+    <div class="delete-icon">
+      <i class="fa fa-trash"></i>
+    </div>
+
+    <h2>Delete User</h2>
+
+    <p>
+      Are you sure you want to delete this user?
+    </p>
+
+    <form method="POST"
+    id="deleteForm">
+
+      <div class="btn-group">
+
+        <button type="submit"
+        class="save-btn">
+
+          Yes Delete
+
+        </button>
+
+        <button type="button"
+        class="cancel-btn"
+        onclick="closeDeleteModal()">
+
+          Cancel
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+function openAddModal(){
+  document.getElementById("addModal").style.display="flex";
+}
+
+function closeAddModal(){
+  document.getElementById("addModal").style.display="none";
+}
+
+function openEditModal(id, fullname, email, phone, role){
+
+  document.getElementById("editModal").style.display="flex";
+
+  document.getElementById("edit_fullname").value=fullname;
+  document.getElementById("edit_email").value=email;
+  document.getElementById("edit_phone").value=phone;
+  document.getElementById("edit_role").value=role;
+
+  document.getElementById("editForm").action=
+  "/users/edit/" + id;
+}
+
+function closeEditModal(){
+  document.getElementById("editModal").style.display="none";
+}
+
+function openDeleteModal(id){
+
+  document.getElementById("deleteModal").style.display="flex";
+
+  document.getElementById("deleteForm").action=
+  "/users/delete/" + id;
+}
+
+function closeDeleteModal(){
+  document.getElementById("deleteModal").style.display="none";
+}
+
+</script>
+
+</body>
+</html>
