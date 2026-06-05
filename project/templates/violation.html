@@ -1,154 +1,507 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Violations - Traffic Monitor</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif; }
-        body { background:#07152d; color:white; display: flex; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* SIDEBAR */
-        .sidebar { width: 260px; height: 100vh; background: #021024; padding: 20px; position: fixed; border-right: 1px solid #13284d; }
-        .logo { font-size: 22px; font-weight: bold; margin-bottom: 50px; color: #0d6efd; text-transform: uppercase; letter-spacing: 1px; }
-        
-        .menu { list-style: none; }
-        .menu li { margin: 15px 0; }
-        .menu li a { text-decoration: none; color: white; padding: 14px; display: block; border-radius: 10px; transition: 0.3s; }
-        .menu li a:hover, .menu li a.active { background: #0d6efd; }
-        .menu li a i { margin-right: 10px; }
+<title>Violations & Alerts - Traffic Monitor</title>
 
-        /* MAIN CONTENT */
-        .main-content { margin-left: 260px; width: calc(100% - 260px); padding: 40px; }
-        .top-section { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; }
-        
-        .role-profile { 
-            background:#0d6efd; 
-            padding:12px 25px; 
-            border-radius:30px; 
-            font-size:14px; 
-            font-weight: bold; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
-        }
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-        .welcome-box { background:#0d1b36; padding:30px; border-radius:15px; border-left:5px solid #0d6efd; margin-bottom:30px; border: 1px solid #13284d; }
-        .table-container { background:#0d1b36; padding:25px; border-radius:15px; border: 1px solid #13284d; overflow-x:auto; }
-        
-        table { width:100%; border-collapse:collapse; }
-        th { text-align:left; padding:15px; color:#9bb0d3; border-bottom:2px solid #13284d; font-size:13px; text-transform: uppercase; }
-        td { padding:15px; border-bottom:1px solid #13284d; font-size:14px; }
+<style>
 
-        .status-tag { padding:6px 12px; border-radius:20px; font-size:11px; font-weight:bold; text-transform: uppercase; }
-        .pending { background:rgba(255,179,0,0.1); color:#ffb300; border: 1px solid #ffb300; }
-        .responded { background:rgba(0,210,106,0.1); color:#00d26a; border: 1px solid #00d26a; }
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-        .response-input { background:#13284d; border:1px solid #0d6efd; color:white; padding:10px; border-radius:8px; outline:none; width: 180px; }
-        .btn-send { background:#0d6efd; border:none; color:white; padding:10px 15px; border-radius:8px; cursor:pointer; font-weight:bold; transition: 0.2s; }
-        .btn-send:hover { background: #0056d2; transform: scale(1.05); }
+/* BODY LIGHT MODE */
+body{
+    display:flex;
+    min-height:100vh;
+    color:#2d3748;
 
-        footer { margin-top: 40px; text-align: center; color: #555; font-size: 12px; }
-    </style>
+    background-color:#f7fafc;
+    background-image: 
+      linear-gradient(135deg, rgba(255, 255, 255, 0.90) 0%, rgba(240, 244, 248, 0.95) 100%),
+      url('https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1974&auto=format&fit=crop');
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:260px;
+    height:100vh;
+    position:fixed;
+    left:0;
+    top:0;
+
+    background:rgba(255, 255, 255, 0.95);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+
+    border-right:1px solid rgba(0, 0, 0, 0.05);
+    box-shadow:2px 0 15px rgba(0, 0, 0, 0.02);
+
+    padding:20px;
+    z-index: 10;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:bold;
+    color:#1a365d;
+    margin-bottom:35px;
+    letter-spacing: 0.5px;
+}
+
+.menu{
+    list-style:none;
+}
+
+.menu li{
+    margin:10px 0;
+}
+
+.menu li a{
+    display:block;
+    padding:12px 15px;
+
+    text-decoration:none;
+    color:#4a5568;
+    font-weight: 500;
+
+    border-radius:8px;
+    transition:0.3s;
+}
+
+/* ICON SPACING FOR SIDEBAR */
+.menu li a i{
+    margin-right:10px;
+    width: 20px;
+    text-align: center;
+}
+
+.menu li a:hover,
+.menu li a.active{
+    background:#2b6cb0;
+    color:white;
+    transform:translateX(5px);
+}
+
+/* MAIN CONTENT */
+.main-content{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:30px;
+}
+
+/* TOP SECTION */
+.top-section{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.top-section h1 {
+    color: #1a365d;
+    font-weight: 700;
+}
+
+.role-profile{
+    background:#edf2f7;
+    color: #2b6cb0;
+    padding:8px 15px;
+    border-radius:20px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* BOXES */
+.welcome-box,
+.table-container{
+    background:rgba(255, 255, 255, 0.95);
+    backdrop-filter:blur(5px);
+
+    padding:25px;
+    border-radius:12px;
+
+    border:1px solid rgba(0,0,0,0.01);
+    box-shadow:0 4px 15px rgba(0,0,0,0.03);
+
+    margin-bottom:25px;
+}
+
+h2{
+    color:#1a365d;
+    margin-bottom:20px;
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.welcome-box h2 {
+    margin-bottom: 10px;
+}
+
+.welcome-box p {
+    color: #4a5568;
+}
+
+/* TABLE */
+.table-container{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th, td{
+    padding:16px;
+    border-bottom:1px solid #edf2f7;
+    text-align:left;
+    font-size:15px;
+}
+
+th{
+    background:#2b6cb0;
+    color:white;
+    text-transform:uppercase;
+    font-size:12px;
+    letter-spacing: 0.5px;
+}
+
+tr:hover{
+    background:#f7fafc;
+}
+
+/* TEXT COLORS */
+.percent{ color:#dd6b20; font-weight:bold; }
+.danger-speed{ color:#e53e3e; font-weight:bold; }
+.limit-speed{ color:#4a5568; font-weight: 600; }
+.time{ color:#718096; font-size: 14px; }
+
+code {
+    background: #edf2f7;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: #2d3748;
+    font-weight: 600;
+}
+
+/* STATUS TAGS */
+.status-tag{
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+    text-transform:uppercase;
+    display: inline-block;
+}
+
+.pending{
+    background:rgba(221, 107, 32, 0.1);
+    color:#dd6b20;
+    border:1px solid rgba(221, 107, 32, 0.2);
+}
+
+.responded{
+    background:rgba(56, 161, 105, 0.1);
+    color:#38a169;
+    border:1px solid rgba(56, 161, 105, 0.2);
+}
+
+.failed{
+    background:rgba(229, 62, 62, 0.1);
+    color:#e53e3e;
+    border:1px solid rgba(229, 62, 62, 0.2);
+}
+
+/* BUTTON */
+.view-btn{
+    background:#2b6cb0;
+    border:none;
+    color:white;
+    padding:8px 16px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition:0.3s;
+}
+
+.view-btn:hover{
+    background:#1a365d;
+    transform:translateY(-1px);
+}
+
+/* MODAL */
+.image-modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+.image-box{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    position: relative;
+    max-width: 90%;
+}
+
+.image-box img{
+    display: block;
+    max-width:100%;
+    max-height:70vh;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+.close-btn{
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size:28px;
+    cursor:pointer;
+    color:#718096;
+    transition: 0.2s;
+}
+
+.close-btn:hover {
+    color: #e53e3e;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+    .sidebar{
+        position:relative;
+        width:100%;
+        height:auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .main-content{
+        margin-left:0;
+        width:100%;
+        padding: 20px;
+    }
+}
+
+</style>
+
 </head>
+
 <body>
 
-    <div class="sidebar">
-        <div class="logo">
-            <i class="fa fa-traffic-light"></i> TRAFFIC MONITOR
-        </div>
+<div class="sidebar">
 
-        <ul class="menu">
-            <li><a href="{{ url_for('dashboard') }}"><i class="fa fa-home"></i> Dashboard</a></li>
-            <li><a href="{{ url_for('violations') }}" class="active"><i class="fa fa-triangle-exclamation"></i> Violations</a></li>
-            
-            {% if role == 'admin' %}
-                <li><a href="{{ url_for('users') }}"><i class="fa fa-users"></i> Manage Users</a></li>
-                <li><a href="{{ url_for('settings') }}"><i class="fa fa-gear"></i> Settings</a></li>
-            {% endif %}
-
-            <li><a href="{{ url_for('reports') }}"><i class="fa fa-file-lines"></i> Reports</a></li>
-            
-            <li style="margin-top: 50px;">
-                <a href="{{ url_for('logout') }}" style="color: #ff4d4d;">
-                    <i class="fa fa-right-from-bracket"></i> Logout
-                </a>
-            </li>
-        </ul>
+    <div class="logo">
+        🚦 Traffic Monitor
     </div>
 
-    <div class="main-content">
-        <div class="top-section">
-            <h1>Violations Management</h1>
-            
-            <div class="role-profile">
-                <i class="fa fa-user-shield"></i> 
-                {% if role == 'admin' %}
-                    Admin
-                {% elif role == 'traffic' %}
-                    Traffic
-                {% endif %}
-            </div>
-        </div>
+    <ul class="menu">
 
-        <div class="welcome-box">
-            <h1>Traffic Violations</h1>
-            <p>Rekodi za magari yaliyokiuka kasi. Hatua zinazochukuliwa hapa zinahifadhiwa moja kwa moja kwenye database.</p>
-        </div>
+        <li>
+            <a href="{{ url_for('dashboard') }}">
+                <i class="fa fa-home"></i> Dashboard
+            </a>
+        </li>
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Vehicle Type</th>
-                        <th>Plate Number</th>
-                        <th>Speed</th>
-                        <th>Status</th>
-                        <th>Officer's Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for v in violations %}
-                    <tr>
-                        <td><strong>{{ v.car_type }}</strong></td>
-                        <td><code>{{ v.plate_number }}</code></td>
-                        <td style="color:#ff4d4d; font-weight:bold;">{{ v.speed }} km/h</td>
-                        <td>
-                            <span class="status-tag {{ 'pending' if v.status == 'Pending' else 'responded' }}">
-                                {{ v.status }}
-                            </span>
-                        </td>
-                        <td>
-                            {% if role == 'traffic' and v.status == 'Pending' %}
-                                <form action="{{ url_for('respond', id=v.id) }}" method="POST" style="display:flex; gap:10px;">
-                                    <input type="text" name="action_message" class="response-input" placeholder="Weka hatua..." required>
-                                    <button type="submit" class="btn-send">Hifadhi</button>
-                                </form>
-                            {% else %}
-                                <span style="color:#888;">
-                                    {% if v.response_message %}
-                                        <i class="fa fa-check-circle" style="color:#00d26a;"></i> {{ v.response_message }}
-                                    {% else %}
-                                        <i>Waiting for Officer...</i>
-                                    {% endif %}
-                                </span>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        <li>
+            <a class="active" href="{{ url_for('violations') }}">
+                <i class="fa fa-triangle-exclamation"></i> Violations & Alerts
+            </a>
+        </li>
 
-        <footer>
-            &copy; 2026 Traffic Monitor System | School Zone Safety
-        </footer>
+        {% if role == 'admin' %}
+        <li>
+            <a href="{{ url_for('users') }}">
+                <i class="fa fa-users"></i> Users
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('settings') }}">
+                <i class="fa fa-gear"></i> Settings
+            </a>
+        </li>
+        {% endif %}
+
+        <li>
+            <a href="{{ url_for('reports') }}">
+                <i class="fa fa-file-lines"></i> Reports
+            </a>
+        </li>
+        
+        <li>
+            <a href="{{ url_for('logout') }}">
+                <i class="fa fa-right-from-bracket"></i> Logout
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+<div class="main-content">
+
+    <div class="top-section">
+        <h1>Violations & Alerts</h1>
+
+        <div class="role-profile">
+            {{ role|capitalize }}
+        </div>
     </div>
+
+    <div class="welcome-box">
+        <h2>Live Traffic Monitoring</h2>
+        <p>System tracking violations and alerts in real time.</p>
+    </div>
+
+    <div class="table-container">
+
+        <h2>Violations Records</h2>
+
+        <table>
+
+            <thead>
+            <tr>
+                <th>Vehicle</th>
+                <th>Plate</th>
+                <th>Speed</th>
+                <th>Limit</th>
+                <th>Exceeded %</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Image</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for v in violations %}
+            <tr>
+
+                <td>{{ v.car_type }}</td>
+                <td><code>{{ v.plate_number }}</code></td>
+
+                <td class="danger-speed">{{ v.speed }} km/h</td>
+
+                <td class="limit-speed">{{ speed_limit }} km/h</td>
+
+                <td class="percent">{{ v.exceeded_percent }}%</td>
+
+                <td class="time">{{ v.time }}</td>
+
+                <td>
+                    <span class="status-tag {{ v.status|lower }}">
+                        {{ v.status }}
+                    </span>
+                </td>
+
+                <td>
+                    {% if v.image %}
+                    <button class="view-btn"
+                    onclick="openImage('{{ url_for('static', filename='uploads/' ~ v.image) }}')">
+                        View
+                    </button>
+                    {% else %}
+                    No Image
+                    {% endif %}
+                </td>
+
+            </tr>
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="table-container">
+
+        <h2>Alerts Records</h2>
+
+        <table>
+
+            <thead>
+            <tr>
+                <th>Alert ID</th>
+                <th>Phone</th>
+                <th>Message</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Time</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for alert in alerts %}
+            <tr>
+
+                <td>#{{ alert.alert_id }}</td>
+                <td>{{ alert.phone_number }}</td>
+                <td>{{ alert.message }}</td>
+                <td>{{ alert.email }}</td>
+
+                <td>
+                    <span class="status-tag {{ alert.status|lower }}">
+                        {{ alert.status }}
+                    </span>
+                </td>
+
+                <td class="time">{{ alert.time }}</td>
+
+            </tr>
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<div class="image-modal" id="imageModal">
+    <div class="image-box">
+        <span class="close-btn" onclick="closeImage()">&times;</span>
+        <img id="violationImage">
+    </div>
+</div>
+
+<script>
+function openImage(src){
+    document.getElementById("imageModal").style.display = "flex";
+    document.getElementById("violationImage").src = src;
+}
+
+function closeImage(){
+    document.getElementById("imageModal").style.display = "none";
+}
+</script>
 
 </body>
 </html>

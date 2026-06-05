@@ -16,152 +16,200 @@
       margin:0;
       padding:0;
       box-sizing:border-box;
-      font-family:Arial, Helvetica, sans-serif;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body{
-      background:#07152d;
-      color:white;
       min-height:100vh;
+      color:#2d3748;
+      overflow-x:hidden;
+
+      /* MODERN PROFESSIONAL LIGHT BACKGROUND */
+      background-color:#f7fafc;
+      background-image: 
+        linear-gradient(135deg, rgba(255, 255, 255, 0.90) 0%, rgba(240, 244, 248, 0.95) 100%),
+        url('https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1974&auto=format&fit=crop');
+      background-size:cover;
+      background-position:center;
+      background-attachment:fixed;
+    }
+
+    /* LIGHT OVERLAY */
+    body::before{
+      content:'';
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background: linear-gradient(135deg, rgba(26, 54, 93, 0.02), rgba(221, 107, 32, 0.02));
+      z-index:-1;
     }
 
     /* NAVBAR */
-
     .navbar{
       width:100%;
-      padding:20px 8%;
+      padding:15px 8%;
       display:flex;
       justify-content:space-between;
       align-items:center;
-      background:#021024;
+      background:rgba(255, 255, 255, 0.9);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
       position:sticky;
       top:0;
+      z-index:100;
+      box-shadow:0 2px 10px rgba(0, 0, 0, 0.05);
+      border-bottom:1px solid rgba(0,0,0,0.05);
     }
 
     .logo{
       font-size:24px;
-      font-weight:bold;
-    }
-
-    .nav-links a{
-      color:white;
-      text-decoration:none;
-      margin-left:20px;
-      transition:0.3s;
-    }
-
-    .nav-links a:hover{
-      color:#4da3ff;
+      font-weight:700;
+      color:#1a365d; /* Dark Blue for authority */
+      letter-spacing: 0.5px;
     }
 
     /* HERO SECTION */
-
     .hero{
-      height:90vh;
+      min-height:80vh;
       display:flex;
       justify-content:center;
       align-items:center;
       text-align:center;
-      padding:20px;
+      padding:60px 20px;
     }
 
     .hero-content{
-      max-width:800px;
+      max-width:850px;
+      background:rgba(255, 255, 255, 0.95);
+      padding:50px 60px;
+      border-radius:16px;
+      backdrop-filter:blur(5px);
+      border:1px solid rgba(255, 255, 255, 0.8);
+      box-shadow:0 10px 30px rgba(0, 0, 0, 0.06);
     }
 
     .hero-content h1{
-      font-size:55px;
+      font-size:45px;
+      font-weight:800;
       margin-bottom:20px;
-      color:#4da3ff;
+      color:#1a365d;
+      line-height:1.2;
     }
 
     .hero-content p{
-      font-size:20px;
+      font-size:18px;
       line-height:1.8;
-      color:#d6e4ff;
+      color:#4a5568;
       margin-bottom:35px;
     }
 
+    /* BUTTONS */
     .btn{
       display:inline-block;
-      padding:15px 35px;
-      background:#0d6efd;
+      padding:14px 32px;
+      margin:8px;
+      background:#2b6cb0; /* Secure Primary Blue */
       color:white;
       text-decoration:none;
-      border-radius:10px;
-      font-size:18px;
-      transition:0.3s;
+      border-radius:8px;
+      font-size:16px;
+      font-weight:600;
+      transition:all 0.25s ease;
+      box-shadow:0 4px 12px rgba(43, 108, 176, 0.2);
+    }
+
+    /* Give the register/signup button a slightly different distinct traffic look */
+    .btn:nth-of-type(2) {
+      background:#dd6b20; /* Traffic Warning Orange */
+      box-shadow:0 4px 12px rgba(221, 107, 32, 0.2);
     }
 
     .btn:hover{
-      background:#0056d6;
-      transform:translateY(-3px);
+      transform:translateY(-2px);
+      box-shadow:0 6px 20px rgba(0, 0, 0, 0.15);
+      opacity:0.95;
     }
 
     /* FEATURES */
-
     .features{
-      padding:60px 8%;
+      padding:40px 8% 80px 8%;
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:25px;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:30px;
     }
 
     .feature-box{
-      background:#0d1b36;
-      padding:30px;
-      border-radius:15px;
+      background:white;
+      padding:40px 30px;
+      border-radius:12px;
       text-align:center;
-      transition:0.3s;
+      transition:all 0.3s ease;
+      border:1px solid rgba(0,0,0,0.03);
+      box-shadow:0 4px 15px rgba(0, 0, 0, 0.03);
     }
 
     .feature-box:hover{
       transform:translateY(-5px);
+      box-shadow:0 12px 25px rgba(0, 0, 0, 0.08);
     }
 
     .feature-box i{
-      font-size:45px;
-      color:#4da3ff;
+      font-size:44px;
+      color:#dd6b20; /* Vibrant traffic orange/amber */
       margin-bottom:20px;
     }
 
     .feature-box h3{
-      margin-bottom:15px;
-      font-size:24px;
+      margin-bottom:12px;
+      font-size:22px;
+      font-weight:700;
+      color:#2d3748;
     }
 
     .feature-box p{
-      color:#c9d6f2;
+      color:#718096;
       line-height:1.6;
+      font-size:15px;
     }
 
     /* FOOTER */
-
     footer{
       text-align:center;
-      padding:25px;
-      background:#021024;
-      margin-top:40px;
-      color:#9db7e5;
+      padding:30px;
+      background:#1a365d;
+      color:#e2e8f0;
+      font-size:14px;
+      border-top:1px solid rgba(0,0,0,0.05);
+      letter-spacing: 0.5px;
     }
 
-    /* MOBILE */
-
+    /* MOBILE RESPONSIVENESS */
     @media(max-width:768px){
+      .hero-content{
+        padding:40px 20px;
+        margin:0 10px;
+      }
 
       .hero-content h1{
-        font-size:38px;
+        font-size:32px;
       }
 
       .hero-content p{
-        font-size:17px;
+        font-size:16px;
       }
 
       .navbar{
         flex-direction:column;
-        gap:15px;
+        gap:10px;
+        text-align:center;
       }
 
+      .btn{
+        width:100%;
+        margin:5px 0;
+      }
     }
 
   </style>
@@ -170,23 +218,16 @@
 <body>
 
   <!-- NAVBAR -->
-
   <nav class="navbar">
-
     <div class="logo">
       🚦 Traffic Monitor
     </div>
-
   </nav>
 
   <!-- HERO SECTION -->
-
   <section class="hero">
-
     <div class="hero-content">
-
-      <h1>Welcome to School Zone Traffic Monitoring System</h1>
-
+      <h1>School Zone Traffic Monitoring System</h1>
       <p>
         This system helps monitor vehicle movement and speed around school areas
         to improve road safety for students, teachers, and the community.
@@ -196,62 +237,45 @@
       </p>
 
       <a href="{{ url_for('login') }}" class="btn">
-    <i class="fa fa-right-to-bracket"></i> Login Now
-	</a>
+        <i class="fa fa-right-to-bracket"></i> Login Now
+      </a>
 
+      <a href="{{ url_for('register') }}" class="btn">
+        <i class="fa fa-user-plus"></i> Sign Up
+      </a>
     </div>
-
   </section>
 
   <!-- FEATURES -->
-
   <section class="features">
-
     <div class="feature-box">
-
       <i class="fa fa-car"></i>
-
       <h3>Traffic Monitoring</h3>
-
       <p>
         Monitor vehicle movement and speed in school zones in real time.
       </p>
-
     </div>
 
     <div class="feature-box">
-
       <i class="fa fa-triangle-exclamation"></i>
-
       <h3>Violation Detection</h3>
-
       <p>
         Detect over-speeding and traffic rule violations automatically.
       </p>
-
     </div>
 
     <div class="feature-box">
-
       <i class="fa fa-chart-line"></i>
-
       <h3>Reports & Analytics</h3>
-
       <p>
         Generate reports and analyze traffic patterns for better decision making.
       </p>
-
     </div>
-
   </section>
 
   <!-- FOOTER -->
-
   <footer>
-
-    © 2026 School Zone Traffic Monitoring System |
-    All Rights Reserved
-
+    © 2026 School Zone Traffic Monitoring System | All Rights Reserved
   </footer>
 
 </body>

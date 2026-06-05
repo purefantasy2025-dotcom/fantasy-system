@@ -15,54 +15,99 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:Arial, Helvetica, sans-serif;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* PROFESSIONAL LIGHT MODE BACKGROUND */
 body{
-  background:#07152d;
-  color:white;
-  padding:30px;
+  background-color:#f7fafc;
+  background-image: 
+    linear-gradient(135deg, rgba(255, 255, 255, 0.90) 0%, rgba(240, 244, 248, 0.95) 100%),
+    url('https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1974&auto=format&fit=crop');
+
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+  color:#2d3748;
+  padding:40px 20px;
 }
 
 /* MAIN CONTAINER */
-
 .container{
   max-width:1200px;
   margin:auto;
 }
 
 /* TOP AREA */
-
 .top-section{
   display:flex;
   justify-content:space-between;
   align-items:center;
   margin-bottom:30px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 20px;
 }
 
 .top-section h1{
   font-size:32px;
+  color: #1a365d;
+  font-weight: 700;
 }
 
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* BUTTONS */
 .add-btn{
-  background:#0d6efd;
+  background:#2b6cb0;
   color:white;
   text-decoration:none;
-  padding:14px 20px;
-  border-radius:10px;
+  padding:12px 20px;
+  border-radius:8px;
   font-size:15px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 4px 12px rgba(43,108,176,0.15);
 }
 
 .add-btn:hover{
-  background:#0056d2;
+  background:#1a365d;
+  transform: translateY(-1px);
 }
 
-/* TABLE */
+/* NEW BACK TO DASHBOARD BUTTON */
+.back-btn {
+  text-decoration: none;
+  color: #4a5568;
+  background: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: 0.3s;
+  border: 1px solid #cbd5e0;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
 
+.back-btn:hover {
+  background: #edf2f7;
+  color: #1a365d;
+}
+
+/* TABLE BOX */
 .table-box{
-  background:#0d1b36;
+  background:white;
   padding:25px;
-  border-radius:15px;
+  border-radius:12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  border: 1px solid rgba(0,0,0,0.01);
   overflow-x:auto;
 }
 
@@ -73,35 +118,47 @@ table{
 
 th{
   text-align:left;
-  padding:15px;
-  color:#9bb0d3;
-  border-bottom:2px solid #13284d;
+  padding:16px;
+  background:#2b6cb0;
+  color:white;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 td{
-  padding:18px 15px;
-  border-bottom:1px solid #13284d;
+  padding:16px;
+  border-bottom:1px solid #edf2f7;
+  font-size: 15px;
+  color: #4a5568;
+}
+
+tr:hover{
+  background:#f7fafc;
 }
 
 .role{
-  background:#0d6efd;
-  padding:6px 12px;
+  background:rgba(43, 108, 176, 0.1);
+  color: #2b6cb0;
+  padding:6px 14px;
   border-radius:20px;
   font-size:13px;
+  font-weight: 600;
+  display: inline-block;
 }
 
 .actions a{
-  color:white;
+  color:#4a5568;
   margin-right:15px;
   font-size:18px;
+  transition: 0.2s;
 }
 
 .actions a:hover{
-  color:#0d6efd;
+  color:#2b6cb0;
 }
 
 /* MODAL */
-
 .modal{
   display:none;
   position:fixed;
@@ -109,20 +166,25 @@ td{
   top:0;
   width:100%;
   height:100%;
-  background:rgba(0,0,0,0.7);
+  background:rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
   justify-content:center;
   align-items:center;
+  z-index: 100;
 }
 
 .modal-content{
   width:450px;
-  background:#0d1b36;
+  background:white;
   padding:30px;
-  border-radius:15px;
+  border-radius:12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .modal-content h2{
   margin-bottom:20px;
+  color: #1a365d;
+  font-weight: 700;
 }
 
 .input-group{
@@ -132,69 +194,97 @@ td{
 .input-group label{
   display:block;
   margin-bottom:8px;
+  color: #4a5568;
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .input-group input,
 .input-group select{
   width:100%;
-  padding:13px;
-  border:none;
-  border-radius:10px;
-  background:#13284d;
-  color:white;
+  padding:12px;
+  border:1px solid #cbd5e0;
+  border-radius:8px;
+  background:white;
+  color:#2d3748;
+  outline: none;
+  transition: 0.3s;
+}
+
+.input-group input:focus,
+.input-group select:focus{
+  border-color: #2b6cb0;
+  box-shadow: 0 0 8px rgba(43,108,176,0.15);
 }
 
 .btn-group{
   display:flex;
   gap:10px;
-  margin-top:20px;
+  margin-top:25px;
 }
 
 .save-btn{
   flex:1;
   padding:13px;
   border:none;
-  border-radius:10px;
-  background:#0d6efd;
+  border-radius:8px;
+  background:#2b6cb0;
   color:white;
   cursor:pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.save-btn:hover{
+  background:#1a365d;
 }
 
 .cancel-btn{
   flex:1;
   padding:13px;
   border:none;
-  border-radius:10px;
-  background:#ff4d4d;
+  border-radius:8px;
+  background:#e53e3e;
   color:white;
   cursor:pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.cancel-btn:hover{
+  opacity: 0.9;
 }
 
 /* DELETE BOX */
-
 .delete-box{
   text-align:center;
 }
 
 .delete-icon{
-  font-size:60px;
-  color:#ff4d4d;
-  margin-bottom:20px;
+  font-size:55px;
+  color:#e53e3e;
+  margin-bottom:15px;
 }
 
 .delete-box p{
-  margin:20px 0;
-  color:#cfd9ec;
+  margin:15px 0 25px 0;
+  color:#4a5568;
+  font-size: 16px;
 }
 
 /* RESPONSIVE */
-
 @media(max-width:700px){
-
   .top-section{
     flex-direction:column;
     gap:15px;
     align-items:flex-start;
+  }
+  
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .btn-group{
@@ -204,7 +294,10 @@ td{
   .modal-content{
     width:90%;
   }
-
+  
+  body {
+    padding: 20px 10px;
+  }
 }
 
 </style>
@@ -213,8 +306,7 @@ td{
 
 <div class="container">
 
-  <!-- TOP -->
-
+  <!-- TOP AREA -->
   <div class="top-section">
 
     <h1>
@@ -222,21 +314,25 @@ td{
       User Management
     </h1>
 
-    <button class="add-btn" onclick="openAddModal()">
-      <i class="fa fa-user-plus"></i>
-      Add User
-    </button>
+    <div class="header-actions">
+      <!-- BUTTON YA BACK TO DASHBOARD -->
+      <a href="{{ url_for('dashboard') }}" class="back-btn">
+        <i class="fa fa-arrow-left"></i> Back to Dashboard
+      </a>
+
+      <button class="add-btn" onclick="openAddModal()">
+        <i class="fa fa-user-plus"></i> Add User
+      </button>
+    </div>
 
   </div>
 
   <!-- TABLE -->
-
   <div class="table-box">
 
     <table>
 
       <thead>
-
         <tr>
           <th>Full Name</th>
           <th>Email</th>
@@ -244,19 +340,15 @@ td{
           <th>Role</th>
           <th>Actions</th>
         </tr>
-
       </thead>
 
       <tbody>
 
         {% for user in users %}
-
         <tr>
 
           <td>{{ user.fullname }}</td>
-
           <td>{{ user.email }}</td>
-
           <td>{{ user.phone }}</td>
 
           <td>
@@ -275,23 +367,18 @@ td{
             '{{ user.phone }}',
             '{{ user.role }}'
             )">
-
               <i class="fa fa-edit"></i>
-
             </a>
 
             <a href="#"
             onclick="openDeleteModal('{{ user.id }}')"
-            style="color:#ff4d4d;">
-
+            style="color:#e53e3e;">
               <i class="fa fa-trash"></i>
-
             </a>
 
           </td>
 
         </tr>
-
         {% endfor %}
 
       </tbody>
@@ -303,85 +390,51 @@ td{
 </div>
 
 <!-- ADD MODAL -->
-
 <div class="modal" id="addModal">
 
   <div class="modal-content">
 
     <h2>Add User</h2>
 
-    <form method="POST"
-    action="{{ url_for('add_user') }}">
+    <form method="POST" action="{{ url_for('add_user') }}">
 
       <div class="input-group">
         <label>Full Name</label>
-
-        <input type="text"
-        name="fullname"
-        required>
+        <input type="text" name="fullname" required>
       </div>
 
       <div class="input-group">
         <label>Email</label>
-
-        <input type="email"
-        name="email"
-        required>
+        <input type="email" name="email" required>
       </div>
 
       <div class="input-group">
         <label>Phone</label>
-
-        <input type="text"
-        name="phone"
-        required>
+        <input type="text" name="phone" required>
       </div>
 
       <div class="input-group">
         <label>Role</label>
-
         <select name="role" required>
-
           <option value="Admin">Admin</option>
           <option value="Traffic Police">Traffic Police</option>
           <option value="Viewer">Viewer</option>
-
         </select>
       </div>
 
       <div class="input-group">
         <label>Username</label>
-
-        <input type="text"
-        name="username"
-        required>
+        <input type="text" name="username" required>
       </div>
 
       <div class="input-group">
         <label>Password</label>
-
-        <input type="password"
-        name="password"
-        required>
+        <input type="password" name="password" required>
       </div>
 
       <div class="btn-group">
-
-        <button type="submit"
-        class="save-btn">
-
-          Save User
-
-        </button>
-
-        <button type="button"
-        class="cancel-btn"
-        onclick="closeAddModal()">
-
-          Cancel
-
-        </button>
-
+        <button type="submit" class="save-btn">Save User</button>
+        <button type="button" class="cancel-btn" onclick="closeAddModal()">Cancel</button>
       </div>
 
     </form>
@@ -391,7 +444,6 @@ td{
 </div>
 
 <!-- EDIT MODAL -->
-
 <div class="modal" id="editModal">
 
   <div class="modal-content">
@@ -402,61 +454,31 @@ td{
 
       <div class="input-group">
         <label>Full Name</label>
-
-        <input type="text"
-        name="fullname"
-        id="edit_fullname"
-        required>
+        <input type="text" name="fullname" id="edit_fullname" required>
       </div>
 
       <div class="input-group">
         <label>Email</label>
-
-        <input type="email"
-        name="email"
-        id="edit_email"
-        required>
+        <input type="email" name="email" id="edit_email" required>
       </div>
 
       <div class="input-group">
         <label>Phone</label>
-
-        <input type="text"
-        name="phone"
-        id="edit_phone"
-        required>
+        <input type="text" name="phone" id="edit_phone" required>
       </div>
 
       <div class="input-group">
         <label>Role</label>
-
-        <select name="role"
-        id="edit_role">
-
+        <select name="role" id="edit_role">
           <option value="Admin">Admin</option>
           <option value="Traffic Police">Traffic Police</option>
           <option value="Viewer">Viewer</option>
-
         </select>
       </div>
 
       <div class="btn-group">
-
-        <button type="submit"
-        class="save-btn">
-
-          Save Changes
-
-        </button>
-
-        <button type="button"
-        class="cancel-btn"
-        onclick="closeEditModal()">
-
-          Cancel
-
-        </button>
-
+        <button type="submit" class="save-btn">Save Changes</button>
+        <button type="button" class="cancel-btn" onclick="closeEditModal()">Cancel</button>
       </div>
 
     </form>
@@ -466,7 +488,6 @@ td{
 </div>
 
 <!-- DELETE MODAL -->
-
 <div class="modal" id="deleteModal">
 
   <div class="modal-content delete-box">
@@ -477,30 +498,13 @@ td{
 
     <h2>Delete User</h2>
 
-    <p>
-      Are you sure you want to delete this user?
-    </p>
+    <p>Are you sure you want to delete this user?</p>
 
-    <form method="POST"
-    id="deleteForm">
+    <form method="POST" id="deleteForm">
 
       <div class="btn-group">
-
-        <button type="submit"
-        class="save-btn">
-
-          Yes Delete
-
-        </button>
-
-        <button type="button"
-        class="cancel-btn"
-        onclick="closeDeleteModal()">
-
-          Cancel
-
-        </button>
-
+        <button type="submit" class="save-btn">Yes Delete</button>
+        <button type="button" class="cancel-btn" onclick="closeDeleteModal()">Cancel</button>
       </div>
 
     </form>
@@ -510,7 +514,6 @@ td{
 </div>
 
 <!-- JAVASCRIPT -->
-
 <script>
 
 function openAddModal(){
@@ -522,7 +525,6 @@ function closeAddModal(){
 }
 
 function openEditModal(id, fullname, email, phone, role){
-
   document.getElementById("editModal").style.display="flex";
 
   document.getElementById("edit_fullname").value=fullname;
@@ -530,8 +532,7 @@ function openEditModal(id, fullname, email, phone, role){
   document.getElementById("edit_phone").value=phone;
   document.getElementById("edit_role").value=role;
 
-  document.getElementById("editForm").action=
-  "/users/edit/" + id;
+  document.getElementById("editForm").action= "/users/edit/" + id;
 }
 
 function closeEditModal(){
@@ -539,11 +540,8 @@ function closeEditModal(){
 }
 
 function openDeleteModal(id){
-
   document.getElementById("deleteModal").style.display="flex";
-
-  document.getElementById("deleteForm").action=
-  "/users/delete/" + id;
+  document.getElementById("deleteForm").action= "/users/delete/" + id;
 }
 
 function closeDeleteModal(){

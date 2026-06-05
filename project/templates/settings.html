@@ -3,64 +3,417 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Settings Page</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;}
-    body{background:#07152d;color:white;display:flex;}
-    .sidebar{width:260px;height:100vh;background:#021024;padding:20px;position:fixed;left:0;top:0;}
-    .logo{font-size:24px;font-weight:bold;margin-bottom:40px;}
-    .menu{list-style:none;}
-    .menu li{margin:15px 0;}
-    .menu li a{text-decoration:none;color:white;padding:14px;display:block;border-radius:10px;transition:0.3s;}
-    .menu li a:hover, .active{background:#0d6efd;}
-    .menu li a i{margin-right:10px;}
-    .main{margin-left:260px;width:100%;padding:20px;}
-    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;}
-    .topbar h1{font-size:30px;}
-    .profile{background:#0d6efd;padding:10px 18px;border-radius:30px;}
-    .settings-container{display:grid;grid-template-columns:repeat(2,1fr);gap:25px;}
-    .settings-card{background:#0d1b36;padding:25px;border-radius:15px;}
-    .settings-card h2{margin-bottom:20px;font-size:24px;}
-    .input-group{margin-bottom:20px;}
-    .input-group label{display:block;margin-bottom:8px;color:#cdd7ea;}
-    .input-group input, .input-group select{width:100%;padding:12px;border:none;border-radius:8px;background:#13284d;color:white;}
-    .toggle{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;background:#13284d;padding:15px;border-radius:10px;}
-    .switch{width:50px;height:25px;background:#0d6efd;border-radius:30px;position:relative;cursor:pointer;}
-    .switch::before{content:'';width:20px;height:20px;background:white;border-radius:50%;position:absolute;top:2.5px;left:26px;}
-    .save-btn{margin-top:15px;padding:14px 20px;background:#0d6efd;color:white;border:none;border-radius:10px;cursor:pointer;width:100%;font-size:16px;}
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body{
+      background-color:#f7fafc;
+      color:#2d3748;
+      display:flex;
+      min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+    .sidebar{
+      width:260px;
+      height:100vh;
+      background:white;
+      padding:20px;
+      position:fixed;
+      left:0;
+      top:0;
+      border-right:1px solid rgba(0,0,0,0.05);
+      box-shadow:2px 0 15px rgba(0, 0, 0, 0.02);
+      z-index: 10;
+    }
+
+    .logo{
+      font-size:22px;
+      font-weight:bold;
+      margin-bottom:40px;
+      color:#1a365d;
+    }
+
+    .menu{
+      list-style:none;
+    }
+
+    .menu li{
+      margin:10px 0;
+    }
+
+    .menu li a{
+      text-decoration:none;
+      color:#4a5568;
+      padding:12px 15px;
+      display:block;
+      border-radius:8px;
+      transition:0.3s;
+      font-weight: 500;
+    }
+
+    .menu li a:hover,
+    .menu li a.active{
+      background:#2b6cb0;
+      color: white;
+    }
+
+    .menu li a i{
+      margin-right:10px;
+      width: 20px;
+      text-align: center;
+    }
+
+    /* MAIN */
+    .main{
+      margin-left:260px;
+      width:100%;
+      padding:30px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:30px;
+      background: white;
+      padding: 15px 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+
+    .topbar h1{
+      font-size:26px;
+      color: #1a365d;
+      font-weight: 700;
+    }
+
+    .profile{
+      background:#edf2f7;
+      color: #2b6cb0;
+      padding:8px 16px;
+      border-radius:30px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* SETTINGS */
+    .settings-container{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:25px;
+    }
+
+    .settings-card{
+      background:white;
+      padding:25px;
+      border-radius:12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+      border: 1px solid rgba(0,0,0,0.01);
+    }
+
+    .settings-card h2{
+      margin-bottom:20px;
+      font-size:22px;
+      color: #1a365d;
+      font-weight: 700;
+    }
+
+    .input-group{
+      margin-bottom:20px;
+    }
+
+    .input-group label{
+      display:block;
+      margin-bottom:8px;
+      color:#4a5568;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .input-group input{
+      width:100%;
+      padding:12px;
+      border:1px solid #cbd5e0;
+      border-radius:8px;
+      background:#ffffff;
+      color:#2d3748;
+      outline:none;
+      transition: 0.3s;
+    }
+
+    .input-group input:focus{
+      border-color: #2b6cb0;
+      box-shadow: 0 0 8px rgba(43,108,176,0.15);
+    }
+
+    /* TOGGLE */
+    .toggle{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:20px;
+      background:#f7fafc;
+      padding:15px;
+      border-radius:8px;
+      border: 1px solid #edf2f7;
+    }
+
+    .toggle span {
+      font-weight: 600;
+      color: #4a5568;
+      font-size: 14px;
+    }
+
+    .toggle input{
+      width:20px;
+      height:20px;
+      cursor: pointer;
+    }
+
+    /* BUTTON */
+    .save-btn{
+      margin-top:15px;
+      padding:14px 20px;
+      background:#2b6cb0;
+      color:white;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      width:100%;
+      font-size:16px;
+      font-weight: 600;
+      transition:0.3s;
+      box-shadow: 0 4px 12px rgba(43,108,176,0.15);
+    }
+
+    .save-btn:hover{
+      background:#1a365d;
+      transform: translateY(-1px);
+    }
+
+    /* FLASH MESSAGE */
+    .flash{
+      background:#38a169;
+      color: white;
+      padding:15px;
+      border-radius:8px;
+      margin-bottom:20px;
+      font-weight: 500;
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      .settings-container{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media(max-width:700px){
+      .sidebar{
+        width:100%;
+        height:auto;
+        position:relative;
+        border-right: none;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+      }
+      body {
+        flex-direction: column;
+      }
+      .main{
+        margin-left:0;
+        padding: 20px;
+      }
+    }
+
   </style>
+
 </head>
+
 <body>
+
+  <!-- SIDEBAR -->
   <div class="sidebar">
-    <div class="logo">🚦 Traffic Monitor</div>
+
+    <div class="logo">
+      🚦 Traffic Monitor
+    </div>
+
     <ul class="menu">
-  <li><a href="{{ url_for('dashboard') }}"><i class="fa fa-home"></i> Dashboard</a></li>
-  <li><a href="{{ url_for('users') }}"><i class="fa fa-users"></i> Users</a></li>
-  <li><a href="{{ url_for('reports') }}"><i class="fa fa-file-lines"></i> Reports</a></li>
-  <li><a href="{{ url_for('settings') }}"><i class="fa fa-gear\"></i> Settings</a></li>
-  <li><a href="{{ url_for('logout') }}"><i class="fa fa-right-from-bracket\"></i> Logout</a></li>
-</ul>
+
+      <li>
+        <a href="{{ url_for('dashboard') }}">
+          <i class="fa fa-home"></i>
+          Dashboard
+        </a>
+      </li>
+	<li>
+        <a href="{{ url_for('violations') }}">
+           <i class="fa fa-triangle-exclamation"></i>
+          Alerts and violations
+        </a>
+      </li>
+
+      <li>
+        <a href="{{ url_for('users') }}">
+          <i class="fa fa-users"></i>
+          Users
+        </a>
+      </li>
+
+      <li>
+        <a href="{{ url_for('reports') }}">
+          <i class="fa fa-file-lines"></i>
+          Reports
+        </a>
+      </li>
+
+      <li>
+        <a href="{{ url_for('settings') }}" class="active">
+          <i class="fa fa-gear"></i>
+          Settings
+        </a>
+      </li>
+
+      <li>
+        <a href="{{ url_for('logout') }}">
+          <i class="fa fa-right-from-bracket"></i>
+          Logout
+        </a>
+      </li>
+
+    </ul>
+
   </div>
+
+  <!-- MAIN -->
   <div class="main">
+
     <div class="topbar">
+
       <h1>System Settings</h1>
-      <div class="profile"><i class="fa fa-user"></i> Admin</div>
+
+      <div class="profile">
+        <i class="fa fa-user"></i>
+        Admin
+      </div>
+
     </div>
+
+    <!-- FLASH MESSAGE -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="flash">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <!-- SETTINGS -->
     <div class="settings-container">
+
+      <!-- SENSOR SETTINGS -->
       <div class="settings-card">
+
         <h2>Sensor Configuration</h2>
-        <div class="input-group"><label>Threshold Speed (km/h)</label><input type="number" value="40"></div>
-        <div class="input-group"><label>Location</label><input type="text" value="School Gate A"></div>
-        <button class="save-btn">Update Sensor</button>
+
+        <form method="POST"
+        action="{{ url_for('settings') }}">
+
+          <div class="input-group">
+
+            <label>Threshold Speed (km/h)</label>
+
+            <input
+            type="number"
+            name="speed"
+            value="{{ settings.speed_limit }}"
+            required>
+
+          </div>
+
+          <div class="input-group">
+
+            <label>Location</label>
+
+            <input
+            type="text"
+            name="location"
+            value="{{ settings.location_name }}"
+            required>
+
+          </div>
+
+          <button
+          type="submit"
+          class="save-btn">
+
+            Update Sensor
+
+          </button>
+
+        </form>
+
       </div>
+
+      <!-- ALERT SETTINGS -->
       <div class="settings-card">
+
         <h2>Alert Settings</h2>
-        <div class="toggle"><span>Email Notifications</span><div class="switch"></div></div>
-        <div class="toggle"><span>SMS Alerts</span><div class="switch"></div></div>
-        <button class="save-btn">Save Alert Settings</button>
+
+        <form method="POST"
+        action="{{ url_for('settings') }}">
+
+          <div class="toggle">
+
+            <span>Email Notifications</span>
+
+            <input
+            type="checkbox"
+            name="email_alert">
+
+          </div>
+
+          <div class="toggle">
+
+            <span>SMS Alerts</span>
+
+            <input
+            type="checkbox"
+            name="sms_alert">
+
+          </div>
+
+          <button
+          type="submit"
+          class="save-btn">
+
+            Save Alert Settings
+
+          </button>
+
+        </form>
+
       </div>
+
     </div>
+
   </div>
+
 </body>
 </html>

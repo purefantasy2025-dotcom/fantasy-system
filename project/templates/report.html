@@ -14,13 +14,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
       margin:0;
       padding:0;
       box-sizing:border-box;
-      font-family:Arial, Helvetica, sans-serif;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body{
-      background:#07152d;
-      color:white;
-      padding:40px; /* Nafasi pande zote kwa sababu hakuna sidebar */
+      background-color:#f7fafc;
+      color:#2d3748;
+      padding:40px; 
     }
 
     /* MAIN CONTAINER */
@@ -35,13 +35,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
       justify-content:space-between;
       align-items:center;
       margin-bottom:40px;
-      border-bottom: 1px solid #13284d;
+      border-bottom: 1px solid #e2e8f0;
       padding-bottom: 20px;
     }
 
     .top-section h1{ 
         font-size:32px; 
-        color: #0d6efd;
+        color: #1a365d;
+        font-weight: 700;
     }
 
     .nav-buttons {
@@ -51,16 +52,22 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
     .btn-back {
         text-decoration: none;
-        color: white;
-        background: #13284d;
+        color: #4a5568;
+        background: white;
         padding: 10px 20px;
         border-radius: 8px;
         font-size: 14px;
         transition: 0.3s;
+        border: 1px solid #cbd5e0;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
     }
 
     .btn-back:hover {
-        background: #1f3c69;
+        background: #edf2f7;
+        color: #1a365d;
     }
 
     /* SUMMARY CARDS */
@@ -72,30 +79,35 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     }
 
     .card{
-      background:#0d1b36;
+      background:white;
       padding:30px;
-      border-radius:15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      border-radius:12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+      border: 1px solid rgba(0,0,0,0.02);
     }
 
-    .card i{ font-size:40px; margin-bottom:15px; color:#0d6efd; }
-    .card p{ color:#cfd9ec; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; }
-    .card h2{ font-size:35px; margin-top:10px; }
+    .card i{ font-size:36px; margin-bottom:15px; color:#2b6cb0; }
+    .card p{ color:#718096; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+    .card h2{ font-size:32px; margin-top:10px; color: #2d3748; font-weight: 700; }
 
     /* REPORT TABLE */
     .report-table{
-      background:#0d1b36;
+      background:white;
       padding:30px;
-      border-radius:15px;
+      border-radius:12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+      border: 1px solid rgba(0,0,0,0.02);
       overflow-x:auto;
     }
 
     .report-table h2{ 
         margin-bottom:25px; 
         font-size: 22px;
+        color: #1a365d;
         display: flex;
         align-items: center;
         gap: 10px;
+        font-weight: 700;
     }
 
     table{
@@ -104,26 +116,29 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     }
 
     th{
-      background:#0d6efd;
-      padding:18px;
+      background:#2b6cb0;
+      color: white;
+      padding:16px;
       text-align:left;
-      font-size: 15px;
+      font-size: 13px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     td{
-      padding:18px;
-      border-bottom:1px solid #13284d;
+      padding:16px;
+      border-bottom:1px solid #edf2f7;
       text-align:left;
       font-size: 15px;
+      color: #4a5568;
     }
 
     tr:hover {
-        background: rgba(13, 110, 253, 0.05);
+        background: #f7fafc;
     }
 
-    .danger { color:#ff4d4d; font-weight:bold; }
-    .safe { color:#00d26a; font-weight:bold; }
+    .danger { color:#e53e3e; font-weight:bold; }
+    .safe { color:#38a169; font-weight:bold; }
 
     /* EXPORT BUTTONS */
     .export-buttons{
@@ -134,27 +149,29 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     }
 
     .export-btn{
-      padding:14px 25px;
+      padding:12px 22px;
       border:none;
-      border-radius:10px;
-      background:#0d6efd;
+      border-radius:8px;
+      background:#2b6cb0;
       color:white;
       cursor:pointer;
-      font-size:15px;
+      font-size:14px;
+      font-weight: 600;
       display:inline-flex;
       align-items:center;
       transition: 0.3s;
     }
 
     .export-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        opacity: 0.95;
     }
 
-    .export-btn i { margin-right: 10px; }
+    .export-btn i { margin-right: 8px; }
 
     @media(max-width:1100px){ .summary{ grid-template-columns:repeat(2,1fr); } }
-    @media(max-width:700px){ .summary{ grid-template-columns:1fr; } }
+    @media(max-width:700px){ .summary{ grid-template-columns:1fr; } padding: 20px; }
 </style>
 </head>
 
@@ -180,7 +197,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     <div class="card">
       <i class="fa fa-triangle-exclamation"></i>
       <p>Total Violations</p>
-      <h2 style="color: #ff4d4d;">{{ total_viol }}</h2>
+      <h2 style="color: #e53e3e;">{{ total_viol }}</h2>
     </div>
 
     <div class="card">
@@ -228,15 +245,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     </table>
 
     <div class="export-buttons">
-      <button class="export-btn" onclick="downloadPDF()" style="background: #e63946;">
+      <button class="export-btn" onclick="downloadPDF()" style="background: #e53e3e;">
         <i class="fa fa-file-pdf"></i> Export PDF
       </button>
 
-      <button class="export-btn" onclick="downloadExcel()" style="background: #2b9348;">
+      <button class="export-btn" onclick="downloadExcel()" style="background: #38a169;">
         <i class="fa fa-file-excel"></i> Export Excel
       </button>
 
-      <button class="export-btn" onclick="window.print()" style="background: #6c757d;">
+      <button class="export-btn" onclick="window.print()" style="background: #4a5568;">
         <i class="fa fa-print"></i> Print Full Page
       </button>
     </div>
@@ -254,7 +271,7 @@ function downloadPDF() {
     doc.text("Traffic Monitoring System - Full Report", 14, 20);
     doc.text("Summary: Total Vehicles ({{ total_v }}), Total Violations ({{ total_viol }})", 14, 30);
     doc.text("Date Generated: " + new Date().toLocaleString(), 14, 40);
-    alert("Kutengeneza PDF kumeanza...");
+    alert("creating pdf...");
     doc.save("Traffic_Monitoring_Report.pdf");
 }
 

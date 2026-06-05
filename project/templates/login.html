@@ -3,107 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Login - School Zone Traffic Monitoring</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        body {
-            background: #07152d; /* Hii ni background ya giza kama index.html */
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+        body{
+            min-height:100vh;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            padding:20px;
+
+            color:#2d3748;
+
+            /* MATCHING BACKGROUND LIGHT MODE */
+            background-color:#f7fafc;
+            background-image: 
+              linear-gradient(135deg, rgba(255, 255, 255, 0.90) 0%, rgba(240, 244, 248, 0.95) 100%),
+              url('https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=1974&auto=format&fit=crop');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            overflow:hidden;
         }
 
-        .login-box {
-            background: #021024; /* Rangi ya giza inayofanana na Sidebar */
-            padding: 40px;
-            border-radius: 15px;
-            width: 400px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            border: 1px solid #13284d;
+        /* LIGHT OVERLAY */
+        body::before{
+            content:'';
+
+            position:fixed;
+
+            top:0;
+            left:0;
+
+            width:100%;
+            height:100%;
+
+            background: linear-gradient(135deg, rgba(26, 54, 93, 0.02), rgba(221, 107, 32, 0.02));
+
+            z-index:-1;
         }
 
-        h2 { 
-            color: #0d6efd; 
-            margin-bottom: 25px; 
-            font-size: 24px;
+        /* LOGIN BOX */
+        .login-box{
+
+            width:100%;
+            max-width:420px;
+
+            background:rgba(255, 255, 255, 0.95);
+
+            padding:40px;
+
+            border-radius:16px;
+
+            backdrop-filter:blur(5px);
+
+            border:1px solid rgba(255, 255, 255, 0.8);
+
+            box-shadow:0 10px 30px rgba(0, 0, 0, 0.06);
+
+            animation:fadeIn 1s ease;
         }
 
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
+        @keyframes fadeIn{
+
+            from{
+                opacity:0;
+                transform:translateY(20px);
+            }
+
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+
         }
 
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #d8e3f5;
-            font-size: 14px;
+        /* TITLE */
+        h2{
+            text-align:center;
+
+            color:#1a365d;
+
+            margin-bottom:30px;
+
+            font-size:28px;
+            font-weight:700;
         }
 
-        input, select {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background: #13284d;
-            color: white;
-            outline: none;
+        /* INPUT GROUP */
+        .input-group{
+            margin-bottom:20px;
         }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #0d6efd;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 16px;
-            transition: 0.3s;
-            margin-top: 10px;
+        label{
+            display:block;
+
+            margin-bottom:8px;
+
+            color:#4a5568;
+
+            font-size:14px;
+            font-weight:600;
         }
 
-        button:hover {
-            background: #0b5ed7;
+        input,
+        select{
+
+            width:100%;
+
+            padding:14px;
+
+            border:1px solid #cbd5e0;
+
+            border-radius:8px;
+
+            outline:none;
+
+            background:#ffffff;
+
+            color:#2d3748;
+
+            font-size:15px;
+
+            transition:0.3s;
         }
 
-        .error-msg {
-            color: #ff4d4d;
-            margin-bottom: 15px;
-            font-size: 14px;
+        input:focus,
+        select:focus{
+
+            border:1px solid #2b6cb0;
+
+            box-shadow:0 0 10px rgba(43,108,176,0.2);
         }
 
-        .back-home {
-            margin-top: 20px;
-            display: block;
-            color: #888;
-            text-decoration: none;
-            font-size: 13px;
+        input::placeholder{
+            color:#a0aec0;
         }
 
-        .back-home:hover {
-            color: #0d6efd;
+        /* BUTTON */
+        button{
+
+            width:100%;
+
+            padding:14px;
+
+            border:none;
+
+            border-radius:8px;
+
+            background:#2b6cb0;
+
+            color:white;
+
+            font-size:17px;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:0.3s;
+
+            margin-top:10px;
+
+            box-shadow:0 4px 12px rgba(43, 108, 176, 0.2);
         }
+
+        button:hover{
+
+            transform:translateY(-2px);
+
+            box-shadow:0 6px 20px rgba(0, 0, 0, 0.15);
+            opacity:0.95;
+        }
+
+        /* ERROR MESSAGE */
+        .error-msg{
+
+            background:rgba(229, 62, 62, 0.1);
+
+            color:#c53030;
+
+            padding:12px;
+
+            border-radius:8px;
+
+            margin-bottom:18px;
+
+            font-size:14px;
+
+            text-align:center;
+            border:1px solid rgba(229, 62, 62, 0.2);
+        }
+
+        /* BACK LINK */
+        .back-home{
+
+            display:block;
+
+            margin-top:22px;
+
+            text-align:center;
+
+            color:#dd6b20;
+
+            text-decoration:none;
+
+            font-size:14px;
+
+            transition:0.3s;
+            font-weight:600;
+        }
+
+        .back-home:hover{
+            color:#1a365d;
+        }
+
+        /* MOBILE */
+        @media(max-width:500px){
+
+            .login-box{
+                padding:30px 22px;
+            }
+
+            h2{
+                font-size:24px;
+            }
+
+        }
+
     </style>
+
 </head>
+
 <body>
 
     <div class="login-box">
-        <h2><i class="fa fa-traffic-light"></i> System Login</h2>
+
+        <h2>
+            <i class="fa fa-traffic-light"></i>
+            System Login
+        </h2>
 
         {% with messages = get_flashed_messages() %}
           {% if messages %}
@@ -114,32 +270,61 @@
         {% endwith %}
 
         <form method="POST" action="{{ url_for('login') }}">
-            
+
             <div class="input-group">
+
                 <label>User Role</label>
+
                 <select name="role" required>
+
                     <option value="admin">Administrator</option>
+
                     <option value="traffic">Traffic Officer</option>
+
                     <option value="user">Standard User</option>
+
                 </select>
+
             </div>
 
             <div class="input-group">
+
                 <label>Username</label>
-                <input type="text" name="username" placeholder="Enter username" required>
+
+                <input type="text"
+                name="username"
+                placeholder="Enter username"
+                required>
+
             </div>
 
             <div class="input-group">
+
                 <label>Password</label>
-                <input type="password" name="password" placeholder="Enter password" required>
+
+                <input type="password"
+                name="password"
+                placeholder="Enter password"
+                required>
+
             </div>
 
             <button type="submit">
-                <i class="fa fa-right-to-bracket"></i> Login
+
+                <i class="fa fa-right-to-bracket"></i>
+
+                Login
+
             </button>
+
         </form>
 
-        <a href="{{ url_for('index') }}" class="back-home">Back to Homepage</a>
+        <a href="{{ url_for('index') }}" class="back-home">
+
+            ← Back to Homepage
+
+        </a>
+
     </div>
 
 </body>
