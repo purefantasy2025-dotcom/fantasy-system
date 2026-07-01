@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operator Provisioning - School Zone Safety</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  
+  <style>
+    /* Global Reset & Base Typography */
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    }
+    
+    body { 
+      background-color: #f8fafc; 
+      color: #334155; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      min-height: 100vh; 
+      padding: 40px 20px; 
+    }
+
+    /* --- REGISTRATION CARD CONTAINER --- */
+    .reg-container { 
+      background: #ffffff; 
+      padding: 40px; 
+      border-radius: 12px; 
+      width: 100%; 
+      max-width: 520px; 
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); 
+      border: 1px solid #e2e8f0; 
+    }
+
+    h2 { 
+      text-align: center; 
+      color: #1e3a8a; /* Corporate Deep Blue */
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 28px; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h2 i {
+      color: #2563eb;
+    }
+
+    /* --- FORM LAYOUT ENGINE --- */
+    .form-group { 
+      margin-bottom: 20px; 
+    }
+
+    .form-group label { 
+      display: block; 
+      margin-bottom: 6px; 
+      font-weight: 600; 
+      font-size: 13px; 
+      color: #475569;
+    }
+
+    .form-control { 
+      width: 100%; 
+      padding: 10px 14px; 
+      border: 1px solid #cbd5e1; 
+      border-radius: 6px; 
+      font-size: 14px;
+      color: #334155;
+      background-color: #ffffff;
+      transition: border-color 0.15s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    /* --- BUTTON ACCENT --- */
+    .btn { 
+      background: #16a34a; /* Professional Success Green */
+      color: #ffffff; 
+      width: 100%; 
+      border: none; 
+      padding: 12px; 
+      border-radius: 6px; 
+      font-size: 14px;
+      font-weight: 600; 
+      cursor: pointer; 
+      margin-top: 10px; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn:hover { 
+      background: #15803d; 
+      box-shadow: 0 2px 8px rgba(22, 163, 74, 0.2);
+    }
+
+    /* --- NAVIGATION LINKS --- */
+    .links { 
+      text-align: center; 
+      margin-top: 24px; 
+      font-size: 14px; 
+      color: #64748b;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 18px;
+    }
+
+    .links a { 
+      color: #2563eb; 
+      text-decoration: none; 
+      font-weight: 600;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="reg-container">
+  <h2><i class="fa fa-user-plus"></i> Operator Registration</h2>
+
+  <form method="POST" action="{{ url_for('auth.register') }}">
+    <div class="form-group">
+      <label for="fullname">Full Official Name</label>
+      <input type="text" id="fullname" name="fullname" class="form-control" placeholder="fullname" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="email">Work Email Address</label>
+      <input type="email" id="email" name="email" class="form-control" placeholder="enter Email" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="phone">Active Contact Line (Phone)</label>
+      <input type="text" id="phone" name="phone" class="form-control" placeholder="enter phone number" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="role">Operational Domain Assignment</label>
+      <select id="role" name="role" class="form-control" required>
+        <option value="user">General user</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="username">Preferred Account Username</label>
+      <input type="text" id="username" name="username" class="form-control" placeholder="Select unique handle" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Account Password</label>
+      <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+    </div>
+    
+    <button type="submit" class="btn">Register Profile Identity</button>
+  </form>
+
+  <div class="links">
+    <p>Already Registered? <a href="{{ url_for('auth.login') }}">Return to Authenticate</a></p>
+  </div>
+</div>
+
+</body>
+</html>

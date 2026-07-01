@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operations Dashboard - School Zone Safety</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  
+  <style>
+    /* Global Reset & Base Typography */
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    }
+    
+    body { 
+      background-color: #f8fafc; 
+      color: #334155; 
+      display: flex; 
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Core Application Layout Structure */
+    .app-container {
+      display: flex;
+      flex: 1;
+      margin-top: 70px; /* Offset for Fixed Header */
+    }
+
+    /* --- FIXED TOP HEADER --- */
+    .app-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background-color: #1e3a8a; /* Deep Corporate Blue */
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      z-index: 100;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .header-brand i {
+      color: #38bdf8;
+    }
+
+    .user-profile-badge {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* --- SIDEBAR NAVIGATION (LIGHT THEME) --- */
+    .sidebar { 
+      width: 260px; 
+      background-color: #ffffff; 
+      border-right: 1px solid #e2e8f0; 
+      padding: 24px 16px; 
+      display: flex; 
+      flex-direction: column;
+      justify-content: space-between;
+      height: calc(100vh - 70px);
+      position: fixed;
+      left: 0;
+      top: 70px;
+    }
+
+    .menu-list { 
+      list-style: none; 
+    }
+
+    .menu-list li { 
+      margin-bottom: 8px; 
+    }
+
+    .menu-list a { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      padding: 12px 16px; 
+      color: #475569; 
+      text-decoration: none; 
+      border-radius: 8px; 
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .menu-list a:hover, .menu-list .active { 
+      background-color: #f0fdf4; 
+      color: #16a34a; 
+      font-weight: 600;
+    }
+
+    .menu-list a i {
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .logout-item {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 16px;
+      margin-top: auto;
+    }
+
+    .logout-link {
+      color: #dc2626 !important;
+    }
+
+    .logout-link:hover {
+      background-color: #fef2f2 !important;
+    }
+
+    /* --- MAIN CONTENT AREA --- */
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      margin-left: 260px; /* Offset for Fixed Sidebar */
+      padding-bottom: 80px; /* Offset for Footer */
+    }
+
+    .welcome-banner {
+      margin-bottom: 32px;
+    }
+
+    .welcome-banner h2 {
+      font-size: 26px;
+      color: #1e293b;
+      font-weight: 700;
+    }
+
+    .welcome-banner p {
+      color: #64748b;
+      margin-top: 4px;
+      font-size: 15px;
+    }
+
+    /* --- KPI METRIC GRID COMPONENT --- */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .kpi-card {
+      background-color: #ffffff;
+      padding: 24px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background-color: #cbd5e1;
+    }
+
+    .kpi-card.primary::before { background-color: #3b82f6; }
+    .kpi-card.danger::before { background-color: #ef4444; }
+    .kpi-card.success::before { background-color: #10b981; }
+
+    .kpi-card h4 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .metric-val {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 12px;
+    }
+
+    /* --- INFORMATION & SYSTEM LOG NOTICE BLOCK --- */
+    .instruction-block {
+      background-color: #ffffff;
+      padding: 28px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .instruction-block h3 {
+      font-size: 18px;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
+
+    .instruction-block h3 i {
+      color: #3b82f6;
+    }
+
+    .instruction-block p {
+      color: #475569;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    /* --- FIXED SYSTEM FOOTER --- */
+    .app-footer {
+      background-color: #ffffff;
+      border-top: 1px solid #e2e8f0;
+      color: #64748b;
+      text-align: center;
+      padding: 16px;
+      font-size: 14px;
+      font-weight: 500;
+      width: 100%;
+      margin-top: auto;
+      z-index: 90;
+    }
+
+    /* --- NEW MESSAGE NOTIFICATION TOP BANNER --- */
+    .top-notification-banner {
+      background-color: #fef2f2;
+      border: 1px solid #fca5a5;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .top-notification-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #991b1b;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .top-notification-content i {
+      font-size: 18px;
+      color: #ef4444;
+    }
+
+    .top-notification-btn {
+      background-color: #ef4444;
+      color: #ffffff;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background-color 0.2s ease;
+    }
+
+    .top-notification-btn:hover {
+      background-color: #dc2626;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="header-brand">
+      <i class="fa fa-shield-halved"></i>
+      <span>School Zone Safety Monitoring</span>
+    </div>
+    <div class="user-profile-badge">
+      <i class="fa fa-user-check"></i>
+      <span>Active Session: {{ username }} ({{ role|upper }})</span>
+    </div>
+  </header>
+
+  <div class="app-container">
+    
+    <nav class="sidebar">
+      <ul class="menu-list">
+        <li>
+          <a href="{{ url_for('dashbod.dashboard') }}" class="active">
+            <i class="fa fa-chart-pie"></i> Control Board
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('violation.violations') }}">
+            <i class="fa fa-car-burst"></i> Infractions Log
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('report.reports') }}">
+            <i class="fa fa-file-invoice-dollar"></i> Analytic Reports
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('communication.portal') }}">
+            <i class="fa fa-envelope-open-text"></i> Intercom Portal
+          </a>
+        </li>
+        
+        {% if role|lower == 'admin' %}
+          <li>
+            <a href="{{ url_for('user.users') }}">
+              <i class="fa fa-users-gear"></i> Staff Identities
+            </a>
+          </li>
+        {% endif %}
+        {% if role|lower == 'traffic' %}
+          <li>
+            <a href="{{ url_for('settings.settings') }}">
+              <i class="fa fa-sliders"></i> Core Configurations
+            </a>
+          </li>
+        {% endif %}
+        
+        <li class="logout-item">
+          <a href="{{ url_for('auth.logout') }}" class="logout-link">
+            <i class="fa fa-power-off"></i> Exit System
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <main class="main-content">
+      
+      <div id="msg-notification-banner" class="top-notification-banner" style="display: none;">
+        <div class="top-notification-content">
+          <i class="fa fa-bell fa-bounce"></i>
+          <span>Attention: You have received a new operational message in the intercom stream.</span>
+        </div>
+        <a href="{{ url_for('communication.portal') }}" id="notification-view-btn" class="top-notification-btn">
+          <i class="fa fa-eye"></i> View Message
+        </a>
+      </div>
+
+      <div class="welcome-banner">
+        <h2>Dashboard Operations Center</h2>
+        <p>Real-time oversight and structural telemetry stream enforcement parameters.</p>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card primary">
+          <h4>Commuters Evaluated (Today)</h4>
+          <div class="metric-val">{{ daily_vehicle_count }} vehicles</div>
+        </div>
+        <div class="kpi-card danger">
+          <h4>Unresolved Speed Infractions</h4>
+          <div class="metric-val">{{ active_violations }} active</div>
+        </div>
+        <div class="kpi-card success">
+          <h4>Assigned Domain Scoping</h4>
+          <div class="metric-val" style="font-size: 18px; color: #16a34a; margin-top: 18px;">
+            <i class="fa fa-key"></i> {{ role|capitalize }} Privilege Level
+          </div>
+        </div>
+      </div>
+
+      <div class="instruction-block">
+        <h3><i class="fa fa-circle-info"></i> Security &amp; Role Constraints Enforcement Notice</h3>
+        <p>
+          Welcome to the School Zone Safety Management console. Your logged authentication token explicitly grants 
+          you access to monitoring telemetry logs according to your system domain clearance.
+        </p>
+        <p>
+          Every command sequence executed, including driver fine creation, notification dispatches, and configuration 
+          updates, is permanently cryptographically cataloged within the institutional security audits. Ensure maximum 
+          regulatory precision when making adjustments.
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    &copy; 2026 School Zone Smart Safety Monitoring Infrastructure Hub. All Rights Reserved.
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Tunachukua jumla ya ujumbe kutoka kwenye mfumo wa Flask
+      const totalMessagesNow = parseInt("{{ total_messages }}") || 0;
+      
+      // Tunatafuta mtumiaji alisoma ujumbe wangapi mara ya mwisho kwenye kivinjari hiki
+      const userRole = "{{ role }}";
+      const storageKey = "seen_messages_count_" + userRole;
+      const lastSeenMessagesCount = parseInt(localStorage.getItem(storageKey)) || 0;
+      
+      const banner = document.getElementById('msg-notification-banner');
+      const viewBtn = document.getElementById('notification-view-btn');
+
+      // Notification itatokea TU kama jumla ya sasa ni kubwa kuliko ya zamani (Kuna mpya)
+      if (totalMessagesNow > lastSeenMessagesCount) {
+        banner.style.display = 'flex';
+      } else {
+        banner.style.display = 'none';
+      }
+
+      // Mtumiaji akibofya kitufe cha kwenda kusoma, tunasave idadi mpya ili isionekane tena
+      if (viewBtn) {
+        viewBtn.addEventListener('click', function() {
+          localStorage.setItem(storageKey, totalMessagesNow);
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

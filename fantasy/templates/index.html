@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Public Monitoring Portal - School Zone Safety</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  
+  <style>
+    /* Global Reset & Base Typography */
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    }
+    
+    body { 
+      background-color: #f8fafc; 
+      color: #334155; 
+      display: flex; 
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* --- FIXED NAVIGATION HEADER --- */
+    .app-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background-color: hsl(224, 30%, 56%); /* Deep Corporate Blue */
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      z-index: 100;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .header-brand i {
+      color: #38bdf8;
+    }
+
+    .nav-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links .login-btn {
+      background-color: #2563eb;
+      padding: 10px 20px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links .login-btn:hover {
+      background-color: #1d4ed8;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+    }
+
+    /* --- MAIN CONTENT CONTAINER --- */
+    .portal-container {
+      max-width: 1280px;
+      width: 100%;
+      margin: 110px auto 40px auto; /* Margin top handles fixed header spacing */
+      padding: 0 24px;
+      flex: 1;
+    }
+
+    /* --- HERO & SYSTEM OVERVIEW BANNER --- */
+    .hero-section {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .hero-section h2 {
+      font-size: 24px;
+      color: #0f172a;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .hero-section p {
+      color: #64748b;
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 900px;
+    }
+
+    /* --- FLASH ALERTS --- */
+    .alert-container {
+      margin-bottom: 24px;
+    }
+    .alert {
+      padding: 14px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .alert-success { background-color: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .alert-danger { background-color: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+
+    /* --- CORE SPLIT COLUMN GRID LAYOUT --- */
+    .portal-grid {
+      display: grid;
+      grid-template-columns: 7fr 5fr; /* Structured asymmetric layout */
+      gap: 32px;
+      align-items: start;
+    }
+
+    @media (max-width: 992px) {
+      .portal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* --- COMPONENT CARD STRUCTURE --- */
+    .panel-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      margin-bottom: 32px;
+    }
+
+    .panel-card h3 {
+      font-size: 18px;
+      color: #0f172a;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 12px;
+    }
+
+    .panel-card h3 i {
+      color: #2563eb;
+    }
+
+    /* --- DATA TABLE COMPONENT --- */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .data-table th {
+      background-color: #f8fafc;
+      color: #64748b;
+      font-weight: 600;
+      padding: 14px 16px;
+      border-bottom: 2px solid #e2e8f0;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .data-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+    }
+
+    .data-table tbody tr:hover {
+      background-color: #f8fafc;
+    }
+
+    .plate-badge {
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: 700;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+      font-size: 13px;
+    }
+
+    .speed-tag {
+      font-weight: 700;
+      color: #dc2626;
+      background-color: #fef2f2;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    /* --- STREAM FEEDBACK LOGS --- */
+    .feedback-stream {
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .feedback-item {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .feedback-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .feedback-author {
+      color: #1e3a8a;
+      font-weight: 600;
+    }
+
+    .feedback-text {
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.5;
+    }
+
+    /* --- FORM LAYOUT ENGINE --- */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 6px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #334155;
+      background-color: #ffffff;
+      transition: border-color 0.15s ease;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background-color: #16a34a; /* Professional Success Green Accent */
+      color: #ffffff;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: #15803d;
+      box-shadow: 0 2px 8px rgba(22, 163, 74, 0.2);
+    }
+
+    /* --- FIXED APP FOOTER --- */
+    .app-footer {
+      background-color: #c98f3e;
+      border-top: 1px solid #e2e8f0;
+      color: #000103;
+      text-align: center;
+      padding: 16px;
+      font-size: 14px;
+      font-weight: 500;
+      width: 100%;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="header-brand">
+      <i class="fa fa-shield-halved"></i>
+      <span>School Zone Safety Monitoring</span>
+    </div>
+    <div class="nav-links">
+      <a href="{{ url_for('auth.login') }}" class="login-btn">
+        <i class="fa fa-right-to-bracket"></i>Login
+      </a>
+    </div>
+  </header>
+
+  <div class="portal-container">
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="alert-container">
+          {% for category, msg in messages %}
+            <div class="alert alert-{{ category }}">
+              <i class="fa {% if category == 'success' %}fa-circle-check{% else %}fa-circle-exclamation{% endif %}"></i>
+              {{ msg }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <div class="hero-section">
+      <h2>Public Transparency &amp; Commuter Oversight Portal</h2>
+      <p>
+        This portal publishes automatically monitored velocity parameters within municipal school protection areas. 
+        Citizens can evaluate logged traffic data metrics and submit recommendations to optimize regional speed restriction enforcement.
+      </p>
+    </div>
+
+    <div class="portal-grid">
+      
+      <section class="panel-card">
+        <h3><i class="fa fa-list-check"></i> Monitored Speed Violations Stream</h3>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Record ID</th>
+                <th>Plate Number</th>
+                <th>Recorded Speed</th>
+                <th>Zone Location</th>
+                <th>Logged Timestamp</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for v in violations %}
+              <tr>
+                <td>#{{ v.id }}</td>
+                <td><span class="plate-badge">{{ v.plate_number }}</span></td>
+                <td><span class="speed-tag">{{ v.speed }} km/h</span></td>
+                <td style="font-weight: 500;">{{ v.location_name }}</td>
+                <td style="color: #64748b; font-size: 13px;">{{ v.created_at }}</td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="5" style="text-align: center; color: #94a3b8; padding: 40px;">
+                  <i class="fa fa-circle-check" style="font-size: 24px; color: #10b981; display: block; margin-bottom: 8px;"></i>
+                  Excellent Compliance! No traffic safety infractions captured over current streaming window.
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="right-sidebar">
+        
+        <section class="panel-card">
+          <h3><i class="fa fa-pen-to-square"></i> Submit Citizen Feedback</h3>
+          <form action="{{ url_for('public.submit_comment') }}" method="POST">
+            
+            <div class="form-group">
+              <label for="violation_id">Target Violation Event (Plate Reference)</label>
+              <select name="violation_id" id="violation_id" class="form-control" required>
+                <option value="">-- Choose Offending Car Reference --</option>
+                {% for v in violations %}
+                  <option value="{{ v.id }}">{{ v.plate_number }} (Recorded: {{ v.speed }} km/h)</option>
+                {% endfor %}
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" name="name" id="name" class="form-control" placeholder="Leave blank for Anonymous Citizen">
+            </div>
+            
+            <div class="form-group">
+              <label for="comment_text">Safety Observation / Comment Text</label>
+              <textarea name="comment_text" id="comment_text" class="form-control" rows="4" placeholder="Describe safety observations regarding this speed limit breach..." required></textarea>
+            </div>
+            
+            <button type="submit" class="btn-submit">
+              <i class="fa fa-paper-plane"></i> Publish Safety Review
+            </button>
+          </form>
+        </section>
+
+        <section class="panel-card">
+          <h3><i class="fa fa-comments"></i> Recent Community Recommendations</h3>
+          <div class="feedback-stream">
+            {% for comment in comments %}
+            <div class="feedback-item">
+              <div class="feedback-meta">
+                <span class="feedback-author"><i class="fa fa-user-circle"></i> {{ comment.name }}</span>
+                <span><i class="fa fa-clock"></i> {{ comment.created_at }}</span>
+              </div>
+              <p class="feedback-text">{{ comment.comment_text }}</p>
+            </div>
+            {% else %}
+            <p style="color: #94a3b8; text-align: center; padding: 20px; font-size: 14px;">
+              No citizen recommendations logged yet. Be the first to express local security insights above.
+            </p>
+            {% endfor %}
+          </div>
+        </section>
+
+      </div> </div>
+  </div>
+
+  <footer class="app-footer">
+    &copy; 2026 School Zone Smart Traffic Safety Infrastructure Hub. All Rights Reserved.
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytic Reports - School Zone Safety</title>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  
+  <style>
+    /* Global Reset & Base Typography */
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    }
+    
+    body { 
+      background-color: #f8fafc; 
+      color: #334155; 
+      display: flex; 
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Core Application Layout Structure */
+    .app-container {
+      display: flex;
+      flex: 1;
+      margin-top: 70px;
+    }
+
+    /* --- FIXED TOP HEADER --- */
+    .app-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background-color: #1e3a8a; 
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      z-index: 100;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-brand { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; }
+    .header-brand i { color: #38bdf8; }
+
+    /* --- SIDEBAR NAVIGATION --- */
+    .sidebar { 
+      width: 260px; 
+      background-color: #ffffff; 
+      border-right: 1px solid #e2e8f0; 
+      padding: 24px 16px; 
+      display: flex; 
+      flex-direction: column;
+      justify-content: space-between;
+      height: calc(100vh - 70px);
+      position: fixed;
+      left: 0;
+      top: 70px;
+    }
+
+    .menu-list { list-style: none; }
+    .menu-list li { margin-bottom: 8px; }
+    .menu-list a { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      padding: 12px 16px; 
+      color: #475569; 
+      text-decoration: none; 
+      border-radius: 8px; 
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .menu-list a:hover, .menu-list .active { 
+      background-color: #f0fdf4; 
+      color: #16a34a; 
+      font-weight: 600;
+    }
+
+    .menu-list a i { font-size: 18px; width: 24px; text-align: center; }
+    .logout-item { border-top: 1px solid #f1f5f9; padding-top: 16px; }
+    .logout-link { color: #dc2626 !important; }
+    .logout-link:hover { background-color: #fef2f2 !important; }
+
+    /* --- MAIN CONTENT AREA --- */
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      margin-left: 260px;
+      padding-bottom: 80px;
+    }
+
+    .welcome-banner { margin-bottom: 32px; }
+    .welcome-banner h2 { font-size: 26px; color: #1e293b; font-weight: 700; }
+    .welcome-banner p { color: #64748b; margin-top: 4px; font-size: 15px; }
+
+    /* --- SUMMARY STATISTICS ROW --- */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .summary-card {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      text-align: center;
+    }
+
+    .summary-card h4 { font-size: 13px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+    .summary-card .value { font-size: 24px; font-weight: 700; color: #0f172a; margin-top: 8px; }
+
+    /* --- PANEL COMPONENT --- */
+    .panel-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      margin-bottom: 32px;
+    }
+
+    .panel-card h3 {
+      font-size: 16px;
+      color: #0f172a;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-card h3 i { color: #2563eb; }
+
+    /* --- DATA TABLE COMPONENT --- */
+    .table-responsive { width: 100%; overflow-x: auto; }
+    .data-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+    
+    .data-table th {
+      background-color: #f8fafc;
+      color: #64748b;
+      font-weight: 600;
+      padding: 12px 14px;
+      border-bottom: 2px solid #e2e8f0;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+
+    .data-table td { padding: 12px 14px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+
+    /* --- FIXED SYSTEM FOOTER --- */
+    .app-footer {
+      background-color: #ffffff;
+      border-top: 1px solid #e2e8f0;
+      color: #64748b;
+      text-align: center;
+      padding: 16px;
+      font-size: 14px;
+      font-weight: 500;
+      width: 100%;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FIXED APP HEADER -->
+  <header class="app-header">
+    <div class="header-brand">
+      <i class="fa fa-shield-halved"></i>
+      <span>School Zone Safety Monitoring</span>
+    </div>
+  </header>
+
+  <div class="app-container">
+    
+    <!-- LIGHT NAVIGATION SIDEBAR -->
+    <nav class="sidebar">
+      <ul class="menu-list">
+        <li><a href="{{ url_for('dashbod.dashboard') }}"><i class="fa fa-chart-pie"></i> Control Board</a></li>
+        <li><a href="{{ url_for('violation.violations') }}"><i class="fa fa-car-burst"></i> Infractions Log</a></li>
+        <li><a href="{{ url_for('report.reports') }}" class="active"><i class="fa fa-file-invoice-dollar"></i> Analytic Reports</a></li>
+        <li><a href="{{ url_for('communication.portal') }}"><i class="fa fa-envelope-open-text"></i> Intercom Portal</a></li>
+        <li class="logout-item"><a href="{{ url_for('auth.logout') }}" class="logout-link"><i class="fa fa-power-off"></i> Exit System</a></li>
+      </ul>
+    </nav>
+
+    <!-- MAIN WORKING SPACE -->
+    <main class="main-content">
+      <div class="welcome-banner">
+        <h2>System Telemetry &amp; Analytical Summary</h2>
+        <p>Comprehensive overview of tracking throughput metrics and observed speed logs across deployment boundaries.</p>
+      </div>
+
+      <!-- ANALYTICAL STATS ROW -->
+      <div class="summary-grid">
+        <div class="summary-card">
+          <h4>Total Logged Records</h4>
+          <div class="value">{{ total_violations }}</div>
+        </div>
+        <div class="summary-card">
+          <h4>Max Recorded Speed</h4>
+          <div class="value" style="color: #dc2626;">{{ max_speed }} km/h</div>
+        </div>
+        <div class="summary-card">
+          <h4>Average Commuter Speed</h4>
+          <div class="value" style="color: #2563eb;">{{ avg_speed }} km/h</div>
+        </div>
+      </div>
+
+      <!-- SYSTEM REGISTRY LEDGER PANEL -->
+      <div class="panel-card">
+        <h3><i class="fa fa-chart-line"></i> Historic System Speed Registry Logs</h3>
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Record ID</th>
+                <th>Plate Number</th>
+                <th>Velocity Limit Status</th>
+                <th>Location Area</th>
+                <th>Time Logged</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in reports_data %}
+              <tr>
+                <td>#{{ row.id }}</td>
+                <td style="font-family: monospace; font-weight: 700;">{{ row.plate_number }}</td>
+                <td style="color: #dc2626; font-weight: 600;">{{ row.speed }} km/h</td>
+                <td>{{ row.location_name }}</td>
+                <td style="color: #64748b;">{{ row.created_at }}</td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="5" style="text-align: center; color: #94a3b8; padding: 30px;">
+                  No historical analytic reports compiled.
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    &copy; 2026 School Zone Smart Safety Monitoring Infrastructure Hub. All Rights Reserved.
+  </footer>
+
+</body>
+</html>

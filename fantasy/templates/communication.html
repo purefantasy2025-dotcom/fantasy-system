@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operator Intercommunications Center - School Zone Safety</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  
+  <style>
+    /* Global Reset & Base Typography */
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    }
+    
+    body { 
+      background-color: #f8fafc; 
+      color: #334155; 
+      display: flex; 
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Core Application Layout Structure */
+    .app-container {
+      display: flex;
+      flex: 1;
+      margin-top: 70px; /* Offset for Fixed Header */
+    }
+
+    /* --- FIXED TOP HEADER --- */
+    .app-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      background-color: #1e3a8a; /* Deep Corporate Blue */
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      z-index: 100;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .header-brand i {
+      color: #38bdf8;
+    }
+
+    .user-profile-badge {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* --- SIDEBAR NAVIGATION (LIGHT THEME) --- */
+    .sidebar { 
+      width: 260px; 
+      background-color: #ffffff; 
+      border-right: 1px solid #e2e8f0; 
+      padding: 24px 16px; 
+      display: flex; 
+      flex-direction: column;
+      justify-content: space-between;
+      height: calc(100vh - 70px);
+      position: fixed;
+      left: 0;
+      top: 70px;
+    }
+
+    .menu-list { 
+      list-style: none; 
+    }
+
+    .menu-list li { 
+      margin-bottom: 8px; 
+    }
+
+    .menu-list a { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      padding: 12px 16px; 
+      color: #475569; 
+      text-decoration: none; 
+      border-radius: 8px; 
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .menu-list a:hover, .menu-list .active { 
+      background-color: #f0fdf4; 
+      color: #16a34a; 
+      font-weight: 600;
+    }
+
+    .menu-list a i {
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .logout-item {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 16px;
+      margin-top: auto;
+    }
+
+    .logout-link {
+      color: #dc2626 !important;
+    }
+
+    .logout-link:hover {
+      background-color: #fef2f2 !important;
+    }
+
+    /* --- MAIN CONTENT AREA --- */
+    .main-content {
+      flex: 1;
+      padding: 40px;
+      margin-left: 260px; /* Offset for Fixed Sidebar */
+      padding-bottom: 80px; /* Offset for Footer */
+    }
+
+    .welcome-banner {
+      margin-bottom: 32px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 20px;
+    }
+
+    .welcome-banner h2 {
+      font-size: 26px;
+      color: #1e293b;
+      font-weight: 700;
+    }
+
+    .welcome-banner p {
+      color: #64748b;
+      margin-top: 4px;
+      font-size: 15px;
+    }
+
+    /* --- TWO-COLUMN GRID LAYOUT --- */
+    .communication-grid { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 30px; 
+      align-items: start; 
+    }
+    
+    @media (max-width: 1024px) {
+      .communication-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card { 
+      background: #ffffff; 
+      padding: 24px; 
+      border-radius: 12px; 
+      border: 1px solid #e2e8f0; 
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02); 
+    }
+    
+    .card h3 { 
+      font-size: 16px; 
+      font-weight: 600;
+      color: #0f172a; 
+      margin-bottom: 20px; 
+      display: flex; 
+      align-items: center; 
+      gap: 10px; 
+      border-bottom: 1px solid #f1f5f9; 
+      padding-bottom: 12px; 
+    }
+
+    .card h3 i {
+      color: #2563eb;
+    }
+    
+    /* --- FORM STYLING --- */
+    .form-group { 
+      margin-bottom: 18px; 
+    }
+    
+    .form-group label { 
+      display: block; 
+      font-size: 13px; 
+      font-weight: 600; 
+      color: #475569; 
+      margin-bottom: 6px; 
+    }
+    
+    .form-control { 
+      width: 100%; 
+      padding: 10px 14px; 
+      border: 1px solid #cbd5e1; 
+      border-radius: 6px; 
+      font-size: 14px; 
+      color: #334155; 
+      background-color: #ffffff;
+      outline: none; 
+      transition: border-color 0.15s ease;
+    }
+    
+    .form-control:focus { 
+      border-color: #2563eb; 
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); 
+    }
+    
+    .btn { 
+      width: 100%; 
+      padding: 12px; 
+      background: #3182ce; 
+      color: #ffffff; 
+      border: none; 
+      border-radius: 6px; 
+      font-weight: 600; 
+      font-size: 14px;
+      cursor: pointer; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s ease; 
+      margin-top: 10px; 
+    }
+    
+    .btn:hover { 
+      background: #2b6cb0; 
+      box-shadow: 0 2px 8px rgba(49, 130, 206, 0.2);
+    }
+    
+    /* --- MESSAGE INBOX FEED STYLING --- */
+    .msg-item { 
+      background: #f8fafc; 
+      border: 1px solid #e2e8f0; 
+      border-radius: 8px; 
+      padding: 16px; 
+      margin-bottom: 16px; 
+    }
+
+    .msg-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .msg-header { 
+      display: flex; 
+      justify-content: space-between; 
+      font-size: 12px; 
+      color: #64748b; 
+      margin-bottom: 8px; 
+    }
+
+    .msg-sender { 
+      font-weight: 700; 
+      color: #2563eb; 
+    }
+
+    .msg-title {
+      margin: 6px 0; 
+      color: #1e293b; 
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .msg-text {
+      font-size: 14px; 
+      color: #475569;
+      line-height: 1.5;
+    }
+
+    /* --- FIXED SYSTEM FOOTER --- */
+    .app-footer {
+      background-color: #ffffff;
+      border-top: 1px solid #e2e8f0;
+      color: #64748b;
+      text-align: center;
+      padding: 16px;
+      font-size: 14px;
+      font-weight: 500;
+      width: 100%;
+      margin-top: auto;
+      z-index: 90;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="header-brand">
+      <i class="fa fa-shield-halved"></i>
+      <span>School Zone Safety Monitoring</span>
+    </div>
+    <div class="user-profile-badge">
+      <i class="fa fa-user-check"></i>
+      <span>Active Session: {{ username }} ({{ role|upper }})</span>
+    </div>
+  </header>
+
+  <div class="app-container">
+    
+    <nav class="sidebar">
+      <ul class="menu-list">
+        <li>
+          <a href="{{ url_for('dashbod.dashboard') }}">
+            <i class="fa fa-chart-pie"></i> Control Board
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('violation.violations') }}">
+            <i class="fa fa-car-burst"></i> Infractions Log
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('report.reports') }}">
+            <i class="fa fa-file-invoice-dollar"></i> Analytic Reports
+          </a>
+        </li>
+        <li>
+          <a href="{{ url_for('communication.portal') }}" class="active">
+            <i class="fa fa-envelope-open-text"></i> Intercom Portal
+          </a>
+        </li>
+        
+        {% if role|lower == 'admin' %}
+          <li>
+            <a href="{{ url_for('user.users') }}">
+              <i class="fa fa-users-gear"></i> Staff Identities
+            </a>
+          </li>
+        {% endif %}
+        {% if role|lower == 'traffic' %}
+          <li>
+            <a href="{{ url_for('settings.settings') }}">
+              <i class="fa fa-sliders"></i> Core Configurations
+            </a>
+          </li>
+        {% endif %}
+        
+        <li class="logout-item">
+          <a href="{{ url_for('auth.logout') }}" class="logout-link">
+            <i class="fa fa-power-off"></i> Exit System
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <main class="main-content">
+      <div class="welcome-banner">
+        <h2>Intercommunications &amp; Coordination Console</h2>
+        <p>Broadcast operational notices and monitor cross-department secure communications stream.</p>
+      </div>
+
+      <div class="communication-grid">
+        
+        <div class="card">
+          <h3><i class="fa fa-paper-plane"></i> Broadcast Secure Memo</h3>
+          <form action="{{ url_for('communication.portal') }}" method="POST">
+            <div class="form-group">
+              <label>Target Audience Channel</label>
+              <select name="recipient_role" class="form-control" required>
+                <option value="user">General Users</option>
+                <option value="traffic">All Traffic Police Personnel</option>
+                <option value="admin">System Admin</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Subject Line</label>
+              <input type="text" name="subject" class="form-control" placeholder="Summary of notice..." required>
+            </div>
+            <div class="form-group">
+              <label>Detailed Message Content</label>
+              <textarea name="message_text" class="form-control" rows="6" placeholder="Type data statement here..." required></textarea>
+            </div>
+            <button type="submit" class="btn">Transmit Channel Dispatch</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3><i class="fa fa-inbox"></i> Inbox Feed For ({{ role|upper }} Group)</h3>
+          {% for msg in messages %}
+          <div class="msg-item">
+            <div class="msg-header">
+              <span>From: <span class="msg-sender">{{ msg.sender_name }} ({{ msg.sender_role|upper }})</span></span>
+              <span><i class="fa fa-clock"></i> {{ msg.timestamp }}</span>
+            </div>
+            <h4 class="msg-title">Subj: {{ msg.subject }}</h4>
+            <p class="msg-text">{{ msg.message_text }}</p>
+          </div>
+          {% else %}
+          <p style="color: #94a3b8; text-align: center; margin-top: 40px; font-size: 14px;">
+            <i class="fa fa-folder-open" style="font-size: 24px; display: block; margin-bottom: 10px; color: #cbd5e1;"></i>
+            No message streams target your department role scope currently.
+          </p>
+          {% endfor %}
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    &copy; 2026 School Zone Smart Safety Monitoring Infrastructure Hub. All Rights Reserved.
+  </footer>
+
+</body>
+</html>
